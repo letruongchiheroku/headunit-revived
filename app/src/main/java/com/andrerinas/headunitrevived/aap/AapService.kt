@@ -249,6 +249,28 @@ class AapService : Service(), UsbReceiver.Listener {
 
         // Ensure old connection is closed!
         accessoryConnection?.disconnect()
+
+        if (connectionType == TYPE_USB) {
+            val deviceFromIntent = DeviceIntent(intent).device
+            if (deviceFromIntent == null) {
+                AppLog.e("USB connection intent has no device")
+                return
+            }
+            val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
+            val resolvedDevice = resolveUsbDevice(usbManager, deviceFromIntent)
+            if (!usbManager.hasPermission(resolvedDevice)) {
+                AppLog.i("Requesting USB permission for device ${resolvedDevice.deviceName} (VID:PID ${resolvedDevice.vendorId}:${resolvedDevice.productId})")
+                val permIntent = Intent(UsbReceiver.ACTION_USB_DEVICE_PERMISSION).putExtra(UsbReceiver.EXTRA_CONNECT, true)
+                val flags = PendingIntent.FLAG_UPDATE_CURRENT or
+                    if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S) PendingIntent.FLAG_MUTABLE else 0
+                val pending = PendingIntent.getBroadcast(this, 0, permIntent, flags)
+                usbManager.requestPermission(resolvedDevice, pending)
+                Toast.makeText(this, R.string.requesting_usb_permission, Toast.LENGTH_SHORT).show()
+                return
+            }
+            intent?.putExtra(UsbManager.EXTRA_DEVICE, resolvedDevice)
+        }
+
         accessoryConnection = connectionFactory(intent, this);
         
         if (accessoryConnection == null) {
@@ -620,7 +642,12 @@ class AapService : Service(), UsbReceiver.Listener {
             checkAlreadyConnectedUsb()
         }
     }
-    override fun onUsbPermission(granted: Boolean, connect: Boolean, device: UsbDevice) {}
+    override fun onUsbPermission(granted: Boolean, connect: Boolean, device: UsbDevice) {
+        if (granted && connect) {
+            AppLog.i("USB permission granted for ${device.deviceName}, starting connection")
+            handleConnectionIntent(createIntent(device, this))
+        }
+    }
 
     companion object {
         var isConnected = false;
@@ -655,11 +682,30 @@ class AapService : Service(), UsbReceiver.Listener {
             };
         }
 
+        /**
+         * Resolves the USB device to use for opening. Prefers current device from deviceList (same path or by VID/PID).
+         * Caller must check hasPermission(resolved) and request permission if needed before opening.
+         */
+        private fun resolveUsbDevice(usbManager: UsbManager, deviceFromIntent: UsbDevice): UsbDevice {
+            val vid = deviceFromIntent.vendorId
+            val pid = deviceFromIntent.productId
+            usbManager.deviceList[deviceFromIntent.deviceName]?.let { return it }
+            for (device in usbManager.deviceList.values) {
+                if (device.vendorId == vid && device.productId == pid) {
+                    AppLog.i("Resolved current device ${device.deviceName} (VID:PID $vid:$pid), intent device was ${deviceFromIntent.deviceName}")
+                    return device
+                }
+            }
+            return deviceFromIntent
+        }
+
         private fun connectionFactory(intent: Intent?, context: Context): AccessoryConnection? {
             val connectionType = intent?.getIntExtra(EXTRA_CONNECTION_TYPE, 0) ?: 0;
             if (connectionType == TYPE_USB) {
-                val device = DeviceIntent(intent).device ?: return null;
-                return UsbAccessoryConnection(context.getSystemService(Context.USB_SERVICE) as UsbManager, device);
+                val deviceFromIntent = DeviceIntent(intent).device ?: return null;
+                val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+                val device = resolveUsbDevice(usbManager, deviceFromIntent)
+                return UsbAccessoryConnection(usbManager, device);
             } else if (connectionType == TYPE_WIFI) {
                 val ip = intent?.getStringExtra(EXTRA_IP) ?: "";
 

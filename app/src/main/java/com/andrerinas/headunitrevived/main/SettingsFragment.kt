@@ -42,6 +42,7 @@ class SettingsFragment : Fragment() {
     private var pendingNightMode: Settings.NightMode? = null
     private var pendingMicSampleRate: Int? = null
     private var pendingUseGps: Boolean? = null
+    private var pendingShowNavigationNotifications: Boolean? = null
     private var pendingResolution: Int? = null
     private var pendingDpi: Int? = null
     private var pendingFullscreen: Boolean? = null
@@ -98,6 +99,7 @@ class SettingsFragment : Fragment() {
         pendingManualEnd = settings.nightModeManualEnd
         pendingMicSampleRate = settings.micSampleRate
         pendingUseGps = settings.useGpsForNavigation
+        pendingShowNavigationNotifications = settings.showNavigationNotifications
         pendingResolution = settings.resolutionId
         pendingDpi = settings.dpiPixelDensity
         pendingFullscreen = settings.startInFullscreenMode
@@ -204,6 +206,7 @@ class SettingsFragment : Fragment() {
         pendingManualEnd?.let { settings.nightModeManualEnd = it }
         pendingMicSampleRate?.let { settings.micSampleRate = it }
         pendingUseGps?.let { settings.useGpsForNavigation = it }
+        pendingShowNavigationNotifications?.let { settings.showNavigationNotifications = it }
         pendingResolution?.let { settings.resolutionId = it }
         pendingDpi?.let { settings.dpiPixelDensity = it }
         pendingFullscreen?.let { settings.startInFullscreenMode = it }
@@ -307,6 +310,7 @@ class SettingsFragment : Fragment() {
                         pendingManualEnd != settings.nightModeManualEnd ||
                         pendingMicSampleRate != settings.micSampleRate ||
                         pendingUseGps != settings.useGpsForNavigation ||
+                        pendingShowNavigationNotifications != settings.showNavigationNotifications ||
                         pendingResolution != settings.resolutionId ||
                         pendingDpi != settings.dpiPixelDensity ||
                         pendingFullscreen != settings.startInFullscreenMode ||
@@ -512,6 +516,18 @@ class SettingsFragment : Fragment() {
             isChecked = pendingUseGps!!,
             onCheckedChanged = { isChecked ->
                 pendingUseGps = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "showNavigationNotifications",
+            nameResId = R.string.show_navigation_notifications,
+            descriptionResId = R.string.show_navigation_notifications_description,
+            isChecked = pendingShowNavigationNotifications!!,
+            onCheckedChanged = { isChecked ->
+                pendingShowNavigationNotifications = isChecked
                 checkChanges()
                 updateSettingsList()
             }

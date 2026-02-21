@@ -73,3 +73,46 @@ class ProjectionActivityRequest: Intent(action) {
         const val action = "${HeadUnit.packageName}.ACTION_REQUEST_PROJECTION"
     }
 }
+
+/**
+ * Broadcast sent when Headunit Revived receives navigation updates from Android Auto
+ * (from any nav app: Google Maps, Yandex Maps, etc.). Do not setPackage() — implicit broadcast
+ * so any app can receive by registering for [action] with RECEIVER_EXPORTED.
+ *
+ * Other apps: registerReceiver(receiver, IntentFilter(NavigationUpdateIntent.action), RECEIVER_EXPORTED)
+ * No special permission required.
+ */
+class NavigationUpdateIntent(
+    distanceMeters: Int?,
+    timeSeconds: Int?,
+    road: String,
+    nextEventType: Int,
+    actionText: String
+) : Intent(action) {
+    init {
+        putExtra(EXTRA_DISTANCE_METERS, distanceMeters?.takeIf { it >= 0 } ?: -1)
+        putExtra(EXTRA_TIME_SECONDS, timeSeconds?.takeIf { it >= 0 } ?: -1)
+        putExtra(EXTRA_ROAD, road.ifBlank { "" })
+        putExtra(EXTRA_NEXT_EVENT_TYPE, nextEventType.coerceIn(0, 31))
+        putExtra(EXTRA_ACTION_TEXT, actionText.ifBlank { "" })
+    }
+
+    companion object {
+        const val action = "${HeadUnit.packageName}.NAVIGATION_UPDATE"
+
+        /** Distance to the next maneuver in meters, or -1 if not set. */
+        const val EXTRA_DISTANCE_METERS = "distance_meters"
+
+        /** Time to the next maneuver in seconds, or -1 if not set. */
+        const val EXTRA_TIME_SECONDS = "time_seconds"
+
+        /** Road/street name (e.g. current street or turn target). */
+        const val EXTRA_ROAD = "road"
+
+        /** Maneuver type: see Android Auto navigation proto NextTurnDetail.NextEvent (0=UNKNOWN, 1=DEPART, …). */
+        const val EXTRA_NEXT_EVENT_TYPE = "next_event_type"
+
+        /** Human-readable action string (e.g. "Turn", "Exit ramp") in the app's locale. */
+        const val EXTRA_ACTION_TEXT = "action_text"
+    }
+}
