@@ -116,8 +116,12 @@
     <string name="usb_auto_connect_description">Verbindet sich automatisch mit einem bekannten USB-Gerät, sobald die App geöffnet wird.</string>
     <string name="auto_start_bt_label">Auto-Start bei Bluetooth</string>
     <string name="auto_start_bt_description">Startet Headunit Revived automatisch, wenn sich ein bestimmtes Bluetooth-Gerät verbindet.</string>
+    <string name="auto_start_usb_label">Autostart bei USB</string>
+    <string name="auto_start_usb_description">App automatisch öffnen, wenn ein USB-Gerät verbunden wird</string>
     <string name="select_bt_device">Bluetooth-Gerät wählen</string>
     <string name="bt_device_not_set">Nicht festgelegt</string>
+    <string name="bt_permission_denied_title">Bluetooth-Berechtigung erforderlich</string>
+    <string name="bt_permission_denied_message">Die Bluetooth-Berechtigung wird benötigt, um gekoppelte Geräte auszuwählen. Bitte in den App-Einstellungen erteilen.</string>
     <string name="overlay_permission_title">Hintergrund-Start Berechtigung</string>
     <string name="overlay_permission_description">Damit Headunit Revived automatisch starten kann, wenn Bluetooth verbindet, aktivieren Sie bitte die Berechtigung "Über anderen Apps einblenden" im nächsten Bildschirm.</string>
     <string name="open_settings">Einstellungen</string>
@@ -144,6 +148,22 @@
     </string-array>
     <string name="auto_connect_last_session">Auto-Connect letzte Sitzung</string>
     <string name="auto_connect_last_session_description">Verbindet beim App-Start automatisch mit dem zuletzt genutzten Gerät</string>
+    <string name="auto_connect_single_usb">USB-Gerät automatisch verbinden</string>
+    <string name="auto_connect_single_usb_description">Automatisch verbinden, wenn nur ein kompatibles Gerät verfügbar ist</string>
+    <string name="auto_connect_settings">Auto-Connect-Einstellungen</string>
+    <string name="auto_connect_settings_description">Auto-Connect-Methoden und ihre Priorität konfigurieren</string>
+    <string name="auto_connect_help">Diese Methoden werden beim Öffnen der App automatisch ausgeführt. Aktivieren Sie die gewünschten und ziehen Sie sie in die gewünschte Reihenfolge. Die erste erfolgreiche aktivierte Methode wird verwendet.</string>
+    <string name="auto_connect_priority">Priorität %d</string>
+    <string name="auto_connect_all_disabled">Alle deaktiviert</string>
+    <string name="drag_to_reorder">Zum Sortieren ziehen</string>
+    <string name="move_up">Nach oben</string>
+    <string name="move_down">Nach unten</string>
+    <string name="auto_connecting_single_usb">Automatische Verbindung zum USB-Gerät…</string>
+    <string name="usb_stability_check">USB-Stabilitätsprüfung</string>
+    <string name="usb_stability_check_description">Aktivieren, wenn Ihr kabelloser Android Auto-Adapter sich mehrmals trennt und wieder verbindet, bevor er korrekt funktioniert</string>
+    <string name="usb_stability_timeout">Stabilitäts-Zeitlimit</string>
+    <string name="usb_stability_timeout_description">Sekunden, die das Gerät verbunden bleiben muss, bevor es automatisch verbunden wird (%d s)</string>
+    <string name="usb_device_settling">Warten auf Stabilisierung des USB-Geräts…</string>
     <string name="video_codec">Video Codec</string>
     <string name="fps_limit">FPS Limit</string>
     <string name="save">Speichern</string>

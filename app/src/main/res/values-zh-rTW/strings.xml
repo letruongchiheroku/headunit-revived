@@ -113,8 +113,12 @@
     <string name="auto_start_self_mode_description">應用程式開啟時自動開始自我模式。</string>
     <string name="auto_start_bt_label">藍牙自動啟動</string>
     <string name="auto_start_bt_description">當特定藍牙裝置連接時，自動開啟 Headunit Revived。</string>
+    <string name="auto_start_usb_label">USB 自動啟動</string>
+    <string name="auto_start_usb_description">連接 USB 裝置時自動開啟應用程式</string>
     <string name="select_bt_device">選擇藍牙裝置</string>
     <string name="bt_device_not_set">未設定</string>
+    <string name="bt_permission_denied_title">需要藍牙權限</string>
+    <string name="bt_permission_denied_message">需要藍牙權限才能選擇已配對的裝置。請在應用程式設定中授予權限。</string>
     <string name="overlay_permission_title">背景啟動權限</string>
     <string name="overlay_permission_description">為了讓 Headunit Revived 在藍牙連接時自動開啟，請在下一個畫面啟用「顯示在其他應用程式上層」的權限。</string>
     <string name="open_settings">設定</string>
@@ -141,6 +145,22 @@
     </string-array>
     <string name="auto_connect_last_session">自動連接上次會話</string>
     <string name="auto_connect_last_session_description">應用程式啟動時自動重新連線到上次使用的裝置</string>
+    <string name="auto_connect_single_usb">自動連接 USB 裝置</string>
+    <string name="auto_connect_single_usb_description">當只有一個相容裝置可用時自動連接</string>
+    <string name="auto_connect_settings">自動連接設定</string>
+    <string name="auto_connect_settings_description">設定自動連接方式及其優先順序</string>
+    <string name="auto_connect_help">這些方式會在開啟應用程式時自動執行。啟用您想要的方式，然後拖曳以設定順序。系統會使用第一個成功的已啟用方式。</string>
+    <string name="auto_connect_priority">優先順序 %d</string>
+    <string name="auto_connect_all_disabled">全部停用</string>
+    <string name="drag_to_reorder">拖曳以重新排序</string>
+    <string name="move_up">上移</string>
+    <string name="move_down">下移</string>
+    <string name="auto_connecting_single_usb">正在自動連接 USB 裝置…</string>
+    <string name="usb_stability_check">USB 穩定性檢查</string>
+    <string name="usb_stability_check_description">如果您的無線 Android Auto 轉接器在正常運作前會多次斷開和重新連接，請啟用此選項</string>
+    <string name="usb_stability_timeout">穩定性逾時</string>
+    <string name="usb_stability_timeout_description">裝置必須保持連接的秒數，之後才會自動連接（%d 秒）</string>
+    <string name="usb_device_settling">等待 USB 裝置穩定…</string>
     <string name="video_codec">視訊編碼</string>
     <string name="fps_limit">FPS 限制</string>
     <string name="save">儲存</string>

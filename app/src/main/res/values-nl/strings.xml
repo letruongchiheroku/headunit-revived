@@ -113,8 +113,12 @@
     <string name="auto_start_self_mode_description">Start de zelfmodus automatisch wanneer de applicatie wordt geopend.</string>
     <string name="auto_start_bt_label">Automatisch starten bij Bluetooth</string>
     <string name="auto_start_bt_description">Start Headunit Revived automatisch wanneer een specifiek Bluetooth-apparaat verbinding maakt.</string>
+    <string name="auto_start_usb_label">Automatisch starten via USB</string>
+    <string name="auto_start_usb_description">De app automatisch openen wanneer een USB-apparaat wordt aangesloten</string>
     <string name="select_bt_device">Selecteer Bluetooth-apparaat</string>
     <string name="bt_device_not_set">Niet ingesteld</string>
+    <string name="bt_permission_denied_title">Bluetooth-toestemming vereist</string>
+    <string name="bt_permission_denied_message">Bluetooth-toestemming is nodig om gekoppelde apparaten te selecteren. Verleen deze in de app-instellingen.</string>
     <string name="overlay_permission_title">Toestemming voor starten op achtergrond</string>
     <string name="overlay_permission_description">Om Headunit Revived automatisch te openen wanneer Bluetooth verbinding maakt, dient u de toestemming "Weergeven over andere apps" in te schakelen in het volgende scherm.</string>
     <string name="open_settings">Instellingen</string>
@@ -141,6 +145,22 @@
     </string-array>
     <string name="auto_connect_last_session">Auto-Connect laatste Sessie</string>
     <string name="auto_connect_last_session_description">Automatisch opnieuw verbinding maken met het laatst gebruikte apparaat bij het opstarten van de app.</string>
+    <string name="auto_connect_single_usb">USB-apparaat automatisch verbinden</string>
+    <string name="auto_connect_single_usb_description">Automatisch verbinden wanneer slechts één compatibel apparaat beschikbaar is</string>
+    <string name="auto_connect_settings">Auto-Connect instellingen</string>
+    <string name="auto_connect_settings_description">Auto-Connect methoden en hun prioriteit instellen</string>
+    <string name="auto_connect_help">Deze methoden worden automatisch uitgevoerd bij het openen van de app. Schakel de gewenste in en sleep om de volgorde te bepalen. De eerste ingeschakelde methode die slaagt, wordt gebruikt.</string>
+    <string name="auto_connect_priority">Prioriteit %d</string>
+    <string name="auto_connect_all_disabled">Alles uitgeschakeld</string>
+    <string name="drag_to_reorder">Sleep om te herschikken</string>
+    <string name="move_up">Omhoog</string>
+    <string name="move_down">Omlaag</string>
+    <string name="auto_connecting_single_usb">Automatisch verbinden met USB-apparaat…</string>
+    <string name="usb_stability_check">USB-stabiliteitscontrole</string>
+    <string name="usb_stability_check_description">Schakel in als uw draadloze Android Auto-adapter meerdere keren loskoppelt en opnieuw verbindt voordat deze correct werkt</string>
+    <string name="usb_stability_timeout">Stabiliteits-timeout</string>
+    <string name="usb_stability_timeout_description">Seconden dat het apparaat verbonden moet blijven voordat automatisch wordt verbonden (%d s)</string>
+    <string name="usb_device_settling">Wachten tot USB-apparaat stabiel is…</string>
     <string name="video_codec">Video Codec</string>
     <string name="fps_limit">FPS Limiet</string>
     <string name="save">Opslaan</string>

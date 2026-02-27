@@ -36,6 +36,7 @@ class HomeFragment : Fragment() {
     private lateinit var exitButton: Button
     private lateinit var self_mode_text: TextView
     private var hasAttemptedAutoConnect = false
+    private var hasAttemptedSingleUsbAutoConnect = false
     private var isScanning = false
 
     private val connectionStatusReceiver = object : BroadcastReceiver() {
@@ -101,16 +102,29 @@ class HomeFragment : Fragment() {
 
         val appSettings = App.provide(requireContext()).settings
 
-        // 1. Priority: Auto-Connect last session (WiFi/USB)
-        if (appSettings.autoConnectLastSession && !hasAttemptedAutoConnect && !AapService.isConnected) {
-            hasAttemptedAutoConnect = true
-            attemptAutoConnect()
-        }
-
-        // 2. Priority: Auto-Start Self Mode
-        if (appSettings.autoStartSelfMode && !hasAutoStarted && !AapService.isConnected) {
-            hasAutoStarted = true
-            startSelfMode()
+        // Execute auto-connect methods in user-defined priority order
+        for (methodId in appSettings.autoConnectPriorityOrder) {
+            if (AapService.isConnected) break
+            when (methodId) {
+                Settings.AUTO_CONNECT_LAST_SESSION -> {
+                    if (appSettings.autoConnectLastSession && !hasAttemptedAutoConnect) {
+                        hasAttemptedAutoConnect = true
+                        attemptAutoConnect()
+                    }
+                }
+                Settings.AUTO_CONNECT_SELF_MODE -> {
+                    if (appSettings.autoStartSelfMode && !hasAutoStarted) {
+                        hasAutoStarted = true
+                        startSelfMode()
+                    }
+                }
+                Settings.AUTO_CONNECT_SINGLE_USB -> {
+                    if (appSettings.autoConnectSingleUsbDevice && !hasAttemptedSingleUsbAutoConnect) {
+                        hasAttemptedSingleUsbAutoConnect = true
+                        attemptSingleUsbAutoConnect()
+                    }
+                }
+            }
         }
     }
 
@@ -165,6 +179,19 @@ class HomeFragment : Fragment() {
                 }
             }
         }
+    }
+
+    private fun attemptSingleUsbAutoConnect() {
+        val appSettings = App.provide(requireContext()).settings
+        if (!appSettings.autoConnectSingleUsbDevice ||
+            !appSettings.hasAcceptedDisclaimer ||
+            AapService.isConnected) return
+
+        AppLog.i("HomeFragment: Requesting single-USB auto-connect via AapService")
+        ContextCompat.startForegroundService(requireContext(),
+            Intent(requireContext(), AapService::class.java).apply {
+                action = AapService.ACTION_CHECK_USB
+            })
     }
 
     private fun setupListeners() {

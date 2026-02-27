@@ -115,8 +115,12 @@
     <string name="usb_auto_connect_description">Az alkalmazás megnyitásakor automatikus csatlakozás egy ismert USB-eszközhöz.</string>
     <string name="auto_start_bt_label">Bluetooth automatikus indítás</string>
     <string name="auto_start_bt_description">A Headunit Revived automatikus megnyitása, amikor egy adott Bluetooth-eszköz csatlakozik.</string>
+    <string name="auto_start_usb_label">Automatikus indítás USB-n</string>
+    <string name="auto_start_usb_description">Az alkalmazás automatikus megnyitása USB-eszköz csatlakoztatásakor</string>
     <string name="select_bt_device">Bluetooth eszköz kiválasztása</string>
     <string name="bt_device_not_set">Nincs beállítva</string>
+    <string name="bt_permission_denied_title">Bluetooth-engedély szükséges</string>
+    <string name="bt_permission_denied_message">A párosított eszközök kiválasztásához Bluetooth-engedély szükséges. Kérjük, engedélyezze az alkalmazás beállításaiban.</string>
     <string name="overlay_permission_title">Háttérben indítás engedélye</string>
     <string name="overlay_permission_description">Ahhoz, hogy a Headunit Revived automatikusan megnyíljon Bluetooth-csatlakozáskor, engedélyezd a következő képernyőn a „Megjelenítés más alkalmazások felett” jogosultságot.</string>
     <string name="open_settings">Beállítások</string>
@@ -143,6 +147,22 @@
     </string-array>
     <string name="auto_connect_last_session">Automatikus folytatás</string>
     <string name="auto_connect_last_session_description">Indításkor automatikus újracsatlakozás a legutóbb használt eszközhöz.</string>
+    <string name="auto_connect_single_usb">USB-eszköz automatikus csatlakoztatása</string>
+    <string name="auto_connect_single_usb_description">Automatikus csatlakozás, ha csak egy kompatibilis eszköz érhető el</string>
+    <string name="auto_connecting_single_usb">Automatikus csatlakozás USB-eszközhöz…</string>
+    <string name="usb_stability_check">USB stabilitás ellenőrzés</string>
+    <string name="usb_stability_check_description">Engedélyezze, ha a vezeték nélküli Android Auto adapter többször lecsatlakozik és újracsatlakozik, mielőtt megfelelően működne</string>
+    <string name="usb_stability_timeout">Stabilitási időkorlát</string>
+    <string name="usb_stability_timeout_description">Másodpercek, ameddig az eszköznek csatlakozva kell maradnia az automatikus csatlakozás előtt (%d mp)</string>
+    <string name="usb_device_settling">Várakozás az USB-eszköz stabilizálódására…</string>
+    <string name="auto_connect_settings">Automatikus csatlakozás beállítások</string>
+    <string name="auto_connect_settings_description">Az automatikus csatlakozási módok és prioritásuk konfigurálása</string>
+    <string name="auto_connect_help">Ezek a módszerek automatikusan futnak az alkalmazás megnyitásakor. Engedélyezze a kívántakat, majd húzza őket a sorrend beállításához. Az első sikeres engedélyezett módszer kerül felhasználásra.</string>
+    <string name="auto_connect_priority">Prioritás %d</string>
+    <string name="auto_connect_all_disabled">Mind letiltva</string>
+    <string name="drag_to_reorder">Húzza az átrendezéshez</string>
+    <string name="move_up">Felfelé</string>
+    <string name="move_down">Lefelé</string>
     <string name="video_codec">Videókódek</string>
     <string name="fps_limit">FPS korlát</string>
     <string name="save">Mentés</string>

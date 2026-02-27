@@ -15,6 +15,7 @@ import com.andrerinas.headunitrevived.connection.UsbDeviceCompat
 import com.andrerinas.headunitrevived.utils.AppLog
 import com.andrerinas.headunitrevived.utils.DeviceIntent
 import com.andrerinas.headunitrevived.utils.LocaleHelper
+import com.andrerinas.headunitrevived.main.MainActivity
 import com.andrerinas.headunitrevived.utils.Settings
 
 
@@ -36,6 +37,19 @@ class UsbAttachedActivity : Activity() {
             return
         }
 
+        val settings = Settings(this)
+        if (settings.autoStartOnUsb && !AapService.isConnected && !App.provide(this).transport.isAlive) {
+            AppLog.i("USB auto-start: launching app")
+            try {
+                val launchIntent = Intent(this, MainActivity::class.java).apply {
+                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK)
+                }
+                startActivity(launchIntent)
+            } catch (e: Exception) {
+                AppLog.w("Could not start UI from USB auto-start: ${e.message}")
+            }
+        }
+
         if (App.provide(this).transport.isAlive) {
             AppLog.e("Thread already running")
             finish()
@@ -50,7 +64,6 @@ class UsbAttachedActivity : Activity() {
         }
 
         val deviceCompat = UsbDeviceCompat(device)
-        val settings = Settings(this)
         if (!settings.isConnectingDevice(deviceCompat)) {
             AppLog.i("Skipping device " + deviceCompat.uniqueName)
             finish()

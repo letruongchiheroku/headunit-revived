@@ -114,8 +114,12 @@
     <string name="auto_start_self_mode_description">Автоматически включать автономный режим при запуске приложения.</string>
     <string name="auto_start_bt_label">Автозапуск при Bluetooth</string>
     <string name="auto_start_bt_description">Автоматически открывать Headunit Revived при подключении определенного Bluetooth-устройства.</string>
+    <string name="auto_start_usb_label">Автозапуск при USB</string>
+    <string name="auto_start_usb_description">Автоматически открывать приложение при подключении USB-устройства</string>
     <string name="select_bt_device">Выбрать Bluetooth-устройство</string>
     <string name="bt_device_not_set">Не задано</string>
+    <string name="bt_permission_denied_title">Требуется разрешение Bluetooth</string>
+    <string name="bt_permission_denied_message">Разрешение Bluetooth необходимо для выбора сопряжённых устройств. Предоставьте его в настройках приложения.</string>
     <string name="overlay_permission_title">Разрешение на запуск в фоне</string>
     <string name="overlay_permission_description">Чтобы Headunit Revived мог автоматически открываться при подключении Bluetooth, включите разрешение "Показывать поверх других приложений" на следующем экране.</string>
     <string name="open_settings">Настройки</string>
@@ -142,6 +146,22 @@
     </string-array>
     <string name="auto_connect_last_session">Автоподключение последней сессии</string>
     <string name="auto_connect_last_session_description">Автоматически подключаться к последнему использованному устройству при запуске приложения</string>
+    <string name="auto_connect_single_usb">Автоподключение USB-устройства</string>
+    <string name="auto_connect_single_usb_description">Автоматически подключаться, если доступно только одно совместимое устройство</string>
+    <string name="auto_connect_settings">Настройки автоподключения</string>
+    <string name="auto_connect_settings_description">Настройка методов автоподключения и их приоритета</string>
+    <string name="auto_connect_help">Эти методы запускаются автоматически при открытии приложения. Включите нужные и перетащите для установки порядка. Будет использован первый включённый метод, который сработает.</string>
+    <string name="auto_connect_priority">Приоритет %d</string>
+    <string name="auto_connect_all_disabled">Все отключены</string>
+    <string name="drag_to_reorder">Перетащите для изменения порядка</string>
+    <string name="move_up">Вверх</string>
+    <string name="move_down">Вниз</string>
+    <string name="auto_connecting_single_usb">Автоподключение к USB-устройству…</string>
+    <string name="usb_stability_check">Проверка стабильности USB</string>
+    <string name="usb_stability_check_description">Включите, если ваш беспроводной адаптер Android Auto отключается и подключается несколько раз, прежде чем начать работать правильно</string>
+    <string name="usb_stability_timeout">Таймаут стабильности</string>
+    <string name="usb_stability_timeout_description">Секунды, в течение которых устройство должно оставаться подключённым перед автоподключением (%d с)</string>
+    <string name="usb_device_settling">Ожидание стабилизации USB-устройства…</string>
     <string name="video_codec">Видеокодек</string>
     <string name="fps_limit">Ограничение FPS</string>
     <string name="save">Сохранить</string>

@@ -114,8 +114,12 @@
     <string name="auto_start_self_mode_description">Inicia o Self Mode automaticamente ao abrir o aplicativo.</string>
     <string name="auto_start_bt_label">Início automático por Bluetooth</string>
     <string name="auto_start_bt_description">Abrir automaticamente o Headunit Revived quando um dispositivo Bluetooth específico se conectar.</string>
+    <string name="auto_start_usb_label">Início automático por USB</string>
+    <string name="auto_start_usb_description">Abrir automaticamente o app ao conectar um dispositivo USB</string>
     <string name="select_bt_device">Selecionar dispositivo Bluetooth</string>
     <string name="bt_device_not_set">Não definido</string>
+    <string name="bt_permission_denied_title">Permissão de Bluetooth necessária</string>
+    <string name="bt_permission_denied_message">A permissão de Bluetooth é necessária para selecionar dispositivos pareados. Conceda-a nas configurações do app.</string>
     <string name="overlay_permission_title">Permissão de início em segundo plano</string>
     <string name="overlay_permission_description">Para permitir que o Headunit Revived abra automaticamente quando o Bluetooth conectar, ative a permissão "Sobrepor a outros apps" na próxima tela.</string>
     <string name="open_settings">Configurações</string>
@@ -142,6 +146,22 @@
     </string-array>
     <string name="auto_connect_last_session">Conectar automaticamente à última sessão</string>
     <string name="auto_connect_last_session_description">Reconecta automaticamente ao último dispositivo usado ao iniciar o app</string>
+    <string name="auto_connect_single_usb">Conectar dispositivo USB automaticamente</string>
+    <string name="auto_connect_single_usb_description">Conectar automaticamente quando apenas um dispositivo compatível estiver disponível</string>
+    <string name="auto_connect_settings">Configurações de Auto-Conexão</string>
+    <string name="auto_connect_settings_description">Configurar métodos de auto-conexão e sua ordem de prioridade</string>
+    <string name="auto_connect_help">Estes métodos são executados automaticamente ao abrir o app. Ative os que desejar e arraste para definir a ordem. O primeiro método ativo que tiver sucesso será usado.</string>
+    <string name="auto_connect_priority">Prioridade %d</string>
+    <string name="auto_connect_all_disabled">Todos desativados</string>
+    <string name="drag_to_reorder">Arraste para reordenar</string>
+    <string name="move_up">Mover para cima</string>
+    <string name="move_down">Mover para baixo</string>
+    <string name="auto_connecting_single_usb">Conectando automaticamente ao dispositivo USB…</string>
+    <string name="usb_stability_check">Verificação de estabilidade USB</string>
+    <string name="usb_stability_check_description">Ative se o seu adaptador sem fio do Android Auto desconecta e reconecta várias vezes antes de funcionar corretamente</string>
+    <string name="usb_stability_timeout">Tempo limite de estabilidade</string>
+    <string name="usb_stability_timeout_description">Segundos que o dispositivo deve permanecer conectado antes de conectar automaticamente (%d s)</string>
+    <string name="usb_device_settling">Aguardando estabilização do dispositivo USB…</string>
     <string name="video_codec">Codec de vídeo</string>
     <string name="fps_limit">Limite de FPS</string>
     <string name="save">Salvar</string>

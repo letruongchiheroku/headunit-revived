@@ -42,6 +42,13 @@
             app:exitAnim="@anim/slide_out_left"
             app:popEnterAnim="@anim/slide_in_left"
             app:popExitAnim="@anim/slide_out_right" />
+        <action
+            android:id="@+id/action_settingsFragment_to_autoConnectFragment"
+            app:destination="@id/autoConnectFragment"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right" />
     </fragment>
 
     <fragment
@@ -53,6 +60,11 @@
         android:id="@+id/aboutFragment"
         android:name="com.andrerinas.headunitrevived.main.AboutFragment"
         android:label="@string/about" />
+
+    <fragment
+        android:id="@+id/autoConnectFragment"
+        android:name="com.andrerinas.headunitrevived.main.AutoConnectFragment"
+        android:label="@string/auto_connect_settings" />
 
     <fragment
         android:id="@+id/usbListFragment"

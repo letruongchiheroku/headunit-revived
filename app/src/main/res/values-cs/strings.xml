@@ -116,8 +116,12 @@
     <string name="usb_auto_connect_description">Automatically connect to a known USB device when the application is opened.</string>
     <string name="auto_start_bt_label">Automaticky spustit při Bluetooth</string>
     <string name="auto_start_bt_description">Automaticky otevřít Headunit Revived při připojení konkrétního Bluetooth zařízení.</string>
+    <string name="auto_start_usb_label">Automatické spuštění přes USB</string>
+    <string name="auto_start_usb_description">Automaticky otevřít aplikaci po připojení USB zařízení</string>
     <string name="select_bt_device">Vybrat Bluetooth zařízení</string>
     <string name="bt_device_not_set">Nenastaveno</string>
+    <string name="bt_permission_denied_title">Vyžadováno oprávnění Bluetooth</string>
+    <string name="bt_permission_denied_message">Pro výběr spárovaných zařízení je vyžadováno oprávnění Bluetooth. Povolte ho prosím v nastavení aplikace.</string>
     <string name="overlay_permission_title">Oprávnění pro spuštění na pozadí</string>
     <string name="overlay_permission_description">Pro automatické otevření Headunit Revived při připojení Bluetooth povolte prosím oprávnění "Zobrazit přes ostatní aplikace" na další obrazovce.</string>
     <string name="open_settings">Nastavení</string>
@@ -144,6 +148,22 @@
     </string-array>
     <string name="auto_connect_last_session">Automaticky připojit poslední relaci</string>
     <string name="auto_connect_last_session_description">Při spuštění aplikace se automaticky znovu připojit k naposledy použitému zařízení</string>
+    <string name="auto_connect_single_usb">Automaticky připojit USB zařízení</string>
+    <string name="auto_connect_single_usb_description">Automaticky připojit, když je dostupné pouze jedno kompatibilní zařízení</string>
+    <string name="auto_connect_settings">Nastavení automatického připojení</string>
+    <string name="auto_connect_settings_description">Konfigurace metod automatického připojení a jejich priorit</string>
+    <string name="auto_connect_help">Tyto metody se spouští automaticky při otevření aplikace. Povolte ty, které chcete, a přetažením nastavte pořadí. Použije se první povolená metoda, která uspěje.</string>
+    <string name="auto_connect_priority">Priorita %d</string>
+    <string name="auto_connect_all_disabled">Vše vypnuto</string>
+    <string name="drag_to_reorder">Přetáhněte pro změnu pořadí</string>
+    <string name="move_up">Posunout nahoru</string>
+    <string name="move_down">Posunout dolů</string>
+    <string name="auto_connecting_single_usb">Automatické připojování k USB zařízení…</string>
+    <string name="usb_stability_check">Kontrola stability USB</string>
+    <string name="usb_stability_check_description">Povolte, pokud se váš bezdrátový adaptér Android Auto opakovaně odpojuje a připojuje, než začne správně fungovat</string>
+    <string name="usb_stability_timeout">Časový limit stability</string>
+    <string name="usb_stability_timeout_description">Počet sekund, po které musí být zařízení připojeno před automatickým připojením (%d s)</string>
+    <string name="usb_device_settling">Čekání na stabilizaci USB zařízení…</string>
     <string name="video_codec">Video kodek</string>
     <string name="fps_limit">Limit FPS</string>
     <string name="save">Uložit</string>
