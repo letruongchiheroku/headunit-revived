@@ -245,7 +245,15 @@ class SettingsFragment : Fragment() {
             ContextCompat.startForegroundService(requireContext(), intent)
         }
 
-        pendingAutoConnectLastSession?.let { settings.autoConnectLastSession = it }
+        pendingAutoConnectLastSession?.let {
+            settings.autoConnectLastSession = it
+            if (it) {
+                val intent = Intent(requireContext(), AapService::class.java).apply {
+                    action = AapService.ACTION_CHECK_USB
+                }
+                ContextCompat.startForegroundService(requireContext(), intent)
+            }
+        }
         pendingAutoConnectSingleUsb?.let { settings.autoConnectSingleUsbDevice = it }
 
         // Notify Service about Night Mode changes immediately

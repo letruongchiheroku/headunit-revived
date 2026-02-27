@@ -139,7 +139,6 @@
         <item>Вручную (список)</item>
         <item>Автопоиск (Headunit Server)</item>
         <item>Wireless Helper (ожидание телефона)</item>
-        <item>Native AA (Экспериментально)</item>
     </string-array>
     <string name="auto_connect_last_session">Автоподключение последней сессии</string>
     <string name="auto_connect_last_session_description">Автоматически подключаться к последнему использованному устройству при запуске приложения</string>
@@ -176,7 +175,7 @@
     <string name="category_info">Информация</string>
     <string name="about">Справка и поддержка</string>
     <string name="about_description">Узнать больше о Headunit Revived</string>
-    <string name="version">Версія</string>
+    <string name="version">Версия</string>
     <string name="about_title">О Headunit Revived</string>
     <string name="copyright">© 2025-%d André Rinas</string>
 

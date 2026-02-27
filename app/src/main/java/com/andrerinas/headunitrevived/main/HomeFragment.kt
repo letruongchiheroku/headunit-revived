@@ -247,7 +247,7 @@ class HomeFragment : Fragment() {
             when (mode) {
                 1 -> { // Auto (Headunit Server) - One-Shot Scan
                     if (AapService.isConnected) {
-                        Toast.makeText(requireContext(), getString(R.string.already_connected), Toast.LENGTH_SHORT).show()
+                        // Already connected, no toast needed
                     } else if (isScanning) {
                         Toast.makeText(requireContext(), getString(R.string.already_scanning), Toast.LENGTH_SHORT).show()
                     } else {
@@ -260,7 +260,7 @@ class HomeFragment : Fragment() {
                 }
                 2 -> { // Helper (Wireless Launcher)
                     if (AapService.isConnected) {
-                        Toast.makeText(requireContext(), getString(R.string.already_connected), Toast.LENGTH_SHORT).show()
+                        // Already connected, no toast needed
                     } else if (isScanning) {
                         Toast.makeText(requireContext(), getString(R.string.already_searching_phone), Toast.LENGTH_SHORT).show()
                     } else {

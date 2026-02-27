@@ -29,7 +29,7 @@ class Settings(context: Context) {
         }
 
     var bluetoothAddress: String
-        get() = prefs.getString("bt-address", "40:EF:4C:A3:CB:A5")!!
+        get() = prefs.getString("bt-address", "")!!
         set(value) = prefs.edit().putString("bt-address", value).apply()
 
     var lastKnownLocation: Location
@@ -263,7 +263,7 @@ class Settings(context: Context) {
 
     var autoStartBluetoothDeviceMac: String
         get() = prefs.getString("auto-start-bt-mac", "")!!
-        set(value) { prefs.edit().putString("auto-start-bt-mac", value).apply() }
+        set(value) = prefs.edit().putString("auto-start-bt-mac", value).apply()
 
     var appLanguage: String
         get() = prefs.getString("app-language", "")!!

@@ -57,8 +57,8 @@ class AapTransport(
         AapSslContext(SingleKeyKeyManager(context))
     }
 
-    private val aapAudio: AapAudio
-    private val aapVideo: AapVideo
+    internal val aapAudio: AapAudio
+    internal val aapVideo: AapVideo
     private var sendThread: HandlerThread? = null
     private var pollThread: HandlerThread? = null
     private val micRecorder: MicRecorder = MicRecorder(settings.micSampleRate, context)
@@ -171,10 +171,12 @@ class AapTransport(
         sendThread = HandlerThread("AapTransport:Handler::Send", Process.THREAD_PRIORITY_AUDIO)
         sendThread!!.start()
         sendHandler = Handler(sendThread!!.looper, sendHandlerCallback)
+        sendHandler?.post { com.andrerinas.headunitrevived.utils.LegacyOptimizer.setHighPriority() }
 
         pollThread = HandlerThread("AapTransport:Handler::Poll", Process.THREAD_PRIORITY_AUDIO)
         pollThread!!.start()
         pollHandler = Handler(pollThread!!.looper, pollHandlerCallback)
+        pollHandler?.post { com.andrerinas.headunitrevived.utils.LegacyOptimizer.setHighPriority() }
 
         SystemClock.sleep(200)
 
