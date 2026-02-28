@@ -4,6 +4,7 @@ import android.content.Context
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
 import com.andrerinas.headunitrevived.aap.AapTransport
+import com.andrerinas.headunitrevived.utils.AppLog
 import com.andrerinas.headunitrevived.main.BackgroundNotification
 import com.andrerinas.headunitrevived.utils.Settings
 import kotlinx.coroutines.*
@@ -22,7 +23,8 @@ class CommManager(
     private val videoDecoder: VideoDecoder) {
 
     sealed class ConnectionState {
-        object Disconnected : ConnectionState()
+        //isClean = true represents that the device requested to close the connection, false otherwise
+        data class Disconnected(val isClean: Boolean = false) : ConnectionState()
         object Connecting : ConnectionState()
         object Connected : ConnectionState()
         object StartingTransport : ConnectionState()
@@ -30,9 +32,8 @@ class CommManager(
         data class Error(val message: String) : ConnectionState()
     }
 
-    // We use SupervisorJob so a crash in reading doesn't kill the whole scope
     private val _scope = CoroutineScope(SupervisorJob() + Dispatchers.IO)
-    private val _connectionState = MutableStateFlow<ConnectionState>(ConnectionState.Disconnected)
+    private val _connectionState = MutableStateFlow<ConnectionState>(ConnectionState.Disconnected())
     private var _transport: AapTransport? = null
     private var _connection: AccessoryConnection? = null
     private val _backgroundNotification = BackgroundNotification(context)
@@ -58,7 +59,7 @@ class CommManager(
                 settings.saveLastConnection(type = Settings.CONNECTION_TYPE_USB, usbDevice = UsbDeviceCompat.getUniqueName(device))
                 _connectionState.emit(ConnectionState.Connected)
             } else {
-                _connectionState.emit(ConnectionState.Disconnected)
+                _connectionState.emit(ConnectionState.Disconnected())
             }
         } catch (e: Exception) {
             _connectionState.emit(ConnectionState.Error("Connection failed: ${e.message}"))
@@ -76,7 +77,7 @@ class CommManager(
                 settings.saveLastConnection(type = Settings.CONNECTION_TYPE_WIFI, ip = socket.inetAddress?.hostAddress ?: "")
                 _connectionState.emit(ConnectionState.Connected)
             } else {
-                _connectionState.emit(ConnectionState.Disconnected)
+                _connectionState.emit(ConnectionState.Disconnected())
             }
         } catch (e: Exception) {
             _connectionState.emit(ConnectionState.Error("Connection failed: ${e.message}"))
@@ -94,7 +95,7 @@ class CommManager(
                 settings.saveLastConnection(type = Settings.CONNECTION_TYPE_WIFI, ip = ip)
                 _connectionState.emit(ConnectionState.Connected)
             } else {
-                _connectionState.emit(ConnectionState.Disconnected)
+                _connectionState.emit(ConnectionState.Disconnected())
             }
         } catch (e: Exception) {
             _connectionState.emit(ConnectionState.Error("Connection failed: ${e.message}"))
@@ -111,6 +112,7 @@ class CommManager(
                 if (_transport == null) {
                     val audioManager = context.getSystemService(Application.AUDIO_SERVICE) as AudioManager
                     _transport = AapTransport(audioDecoder, videoDecoder, audioManager, settings, _backgroundNotification, context)
+                    _transport!!.onQuit = { isClean -> transportedQuited(isClean) }
                 }
                 if (_transport?.start(_connection!!) == true) {
                     _transport?.aapAudio?.requestFocusChange(
@@ -127,6 +129,11 @@ class CommManager(
             _connectionState.emit(ConnectionState.Error("Connection failed: ${e.message}"))
             disconnect()
         }
+    }
+
+    private fun transportedQuited(isClean: Boolean) {
+        _connectionState.value = ConnectionState.Disconnected(isClean)
+        _scope.launch { doDisconnect() }
     }
 
     fun send(keyCode: Int, isPress: Boolean) {
@@ -177,28 +184,25 @@ class CommManager(
     fun disconnect() {
         if (_connectionState.value is ConnectionState.Disconnected) return
 
-        _connectionState.value = ConnectionState.Disconnected
+        _connectionState.value = ConnectionState.Disconnected()
         _scope.launch { doDisconnect() }
     }
 
-    private suspend fun doDisconnect() {
+    private fun doDisconnect() {
         try {
             _transport?.stop()
             _connection?.disconnect()
-            _transport = null
-            _connection = null
-            _connectionState.emit(ConnectionState.Disconnected)
-
         } catch (e: Exception) {
-            _connectionState.emit(ConnectionState.Error("Disconnect failed: ${e.message}"))
+            AppLog.e("doDisconnect error: ${e.message}")
         } finally {
             _transport = null
             _connection = null
-            _connectionState.emit(ConnectionState.Disconnected)
+            if (_connectionState.value !is ConnectionState.Disconnected) {
+                _connectionState.value = ConnectionState.Disconnected()
+            }
         }
     }
 
-    // Call this when the app is destroyed to clean up threads
     fun destroy() {
         _scope.launch {
             withContext(Dispatchers.IO) {

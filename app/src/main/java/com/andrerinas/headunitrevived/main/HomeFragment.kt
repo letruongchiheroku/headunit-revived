@@ -14,15 +14,17 @@ import android.widget.TextView
 import android.widget.Toast
 import androidx.fragment.app.Fragment
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import androidx.navigation.fragment.findNavController
 import com.andrerinas.headunitrevived.App
 import com.andrerinas.headunitrevived.R
 import com.andrerinas.headunitrevived.aap.AapProjectionActivity
 import com.andrerinas.headunitrevived.aap.AapService
 import com.andrerinas.headunitrevived.connection.UsbDeviceCompat
-import com.andrerinas.headunitrevived.contract.ConnectedIntent
-import com.andrerinas.headunitrevived.contract.DisconnectIntent
 import com.andrerinas.headunitrevived.utils.AppLog
+import kotlinx.coroutines.launch
 import com.andrerinas.headunitrevived.utils.Settings
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
@@ -43,7 +45,6 @@ class HomeFragment : Fragment() {
     private val connectionStatusReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context?, intent: Intent?) {
             AppLog.i("HomeFragment received ${intent?.action}")
-
             when (intent?.action) {
                 AapService.ACTION_SCAN_STARTED -> {
                     isScanning = true
@@ -53,17 +54,6 @@ class HomeFragment : Fragment() {
                     isScanning = false
                     updateWifiButtonFeedback()
                 }
-            }
-
-            updateProjectionButtonText()
-
-            if (intent?.action == ConnectedIntent.action) {
-                AppLog.i("HomeFragment: Connected broadcast received, launching projection")
-                val aapIntent = AapProjectionActivity.intent(requireContext()).apply {
-                    putExtra(AapProjectionActivity.EXTRA_FOCUS, true)
-                    addFlags(Intent.FLAG_ACTIVITY_NEW_TASK or Intent.FLAG_ACTIVITY_CLEAR_TOP or Intent.FLAG_ACTIVITY_SINGLE_TOP)
-                }
-                startActivity(aapIntent)
             }
         }
     }
@@ -100,6 +90,12 @@ class HomeFragment : Fragment() {
 
         setupListeners()
         updateProjectionButtonText()
+
+        viewLifecycleOwner.lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                commManager.connectionState.collect { updateProjectionButtonText() }
+            }
+        }
 
         val appSettings = App.provide(requireContext()).settings
 
@@ -258,8 +254,6 @@ class HomeFragment : Fragment() {
         super.onResume()
         AppLog.i("HomeFragment: onResume. isConnected=${commManager.isConnected}")
         val filter = IntentFilter().apply {
-            addAction(ConnectedIntent.action)
-            addAction(DisconnectIntent.action)
             addAction(AapService.ACTION_SCAN_STARTED)
             addAction(AapService.ACTION_SCAN_FINISHED)
         }

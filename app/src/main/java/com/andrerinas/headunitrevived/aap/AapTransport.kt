@@ -22,7 +22,6 @@ import com.andrerinas.headunitrevived.aap.protocol.messages.TouchEvent
 import com.andrerinas.headunitrevived.aap.protocol.proto.Input
 import com.andrerinas.headunitrevived.aap.protocol.proto.Sensors
 import com.andrerinas.headunitrevived.connection.AccessoryConnection
-import com.andrerinas.headunitrevived.contract.DisconnectIntent
 import com.andrerinas.headunitrevived.contract.ProjectionActivityRequest
 import com.andrerinas.headunitrevived.decoder.AudioDecoder
 import com.andrerinas.headunitrevived.decoder.MicRecorder
@@ -73,6 +72,7 @@ class AapTransport(
     private var aapRead: AapRead? = null
     var isQuittingAllowed: Boolean = false
     var ignoreNextStopRequest: Boolean = false
+    @Volatile var onQuit: ((Boolean) -> Unit)? = null
     private var pollHandler: Handler? = null
     private val pollHandlerCallback = Handler.Callback {
         val ret = aapRead?.read() ?: -1
@@ -144,7 +144,9 @@ class AapTransport(
 
     internal fun quit(clean: Boolean = false) {
         AppLog.i("AapTransport quitting (clean=$clean)")
-        context.sendBroadcast(DisconnectIntent(clean))
+        val cb = onQuit
+        onQuit = null
+        cb?.invoke(clean)
         micRecorder.listener = null
         pollThread?.quit()
         sendThread?.quit()

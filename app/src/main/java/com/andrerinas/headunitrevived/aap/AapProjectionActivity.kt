@@ -13,14 +13,18 @@ import android.view.View
 import android.widget.FrameLayout
 import androidx.activity.enableEdgeToEdge
 import androidx.core.content.ContextCompat
+import androidx.lifecycle.Lifecycle
+import androidx.lifecycle.lifecycleScope
+import androidx.lifecycle.repeatOnLifecycle
 import com.andrerinas.headunitrevived.App
 import com.andrerinas.headunitrevived.R
 import com.andrerinas.headunitrevived.aap.protocol.messages.TouchEvent
 import com.andrerinas.headunitrevived.aap.protocol.messages.VideoFocusEvent
 import com.andrerinas.headunitrevived.app.SurfaceActivity
 import com.andrerinas.headunitrevived.connection.CommManager
-import com.andrerinas.headunitrevived.contract.DisconnectIntent
 import com.andrerinas.headunitrevived.contract.KeyIntent
+import kotlinx.coroutines.flow.filterIsInstance
+import kotlinx.coroutines.launch
 import kotlinx.coroutines.runBlocking
 import com.andrerinas.headunitrevived.decoder.VideoDecoder
 import com.andrerinas.headunitrevived.decoder.VideoDimensionsListener
@@ -87,13 +91,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         }
     }
 
-    private val disconnectReceiver = object : BroadcastReceiver() {
-        override fun onReceive(context: Context, intent: Intent) {
-            AppLog.i("AapProjectionActivity received disconnect signal, finishing.")
-            finish()
-        }
-    }
-
     private val keyCodeReceiver = object : BroadcastReceiver() {
         override fun onReceive(context: Context, intent: Intent) {
             val event: KeyEvent? = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
@@ -126,10 +123,15 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
         setContentView(R.layout.activity_headunit)
 
-        // Register disconnect receiver safely for Android 14+
-        ContextCompat.registerReceiver(this, disconnectReceiver, IntentFilters.disconnect, ContextCompat.RECEIVER_NOT_EXPORTED)
-
         videoDecoder.dimensionsListener = this
+
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                commManager.connectionState
+                    .filterIsInstance<CommManager.ConnectionState.Disconnected>()
+                    .collect { finish() }
+            }
+        }
 
         AppLog.i("HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...")
 
@@ -207,7 +209,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         watchdogHandler.removeCallbacks(watchdogRunnable)
         watchdogHandler.removeCallbacks(videoWatchdogRunnable)
         unregisterReceiver(keyCodeReceiver)
-        // Disconnect receiver is unregistered in onDestroy
     }
 
     override fun onResume() {
@@ -280,7 +281,7 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
                                 setPackage(packageName)
                             })
                         } else {
-                            sendBroadcast(DisconnectIntent(false))
+                            commManager.disconnect()
                         }
                     }, "TransportStart").start()
                 }
@@ -368,7 +369,6 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     override fun onDestroy() {
         super.onDestroy()
         AppLog.i("AapProjectionActivity.onDestroy called. isFinishing=$isFinishing")
-        unregisterReceiver(disconnectReceiver)
         videoDecoder.dimensionsListener = null
 
         // Note: Disconnect is now only handled via explicit user action (Exit button)
