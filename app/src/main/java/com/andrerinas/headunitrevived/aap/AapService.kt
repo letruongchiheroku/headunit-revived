@@ -166,18 +166,21 @@ class AapService : Service(), UsbReceiver.Listener {
 
     /**
      * Called by [CommManager.ConnectionState.Connected] observer:
-     * 1. Refreshing the foreground notification
-     * 2. Activating a [MediaSessionCompat] so media keys are routed to Android Auto
-     * 3. Syncing the current night-mode state to the newly connected phone
-     * 4. Launching [AapProjectionActivity] to display the AA video surface
+     * 1. Refreshes the foreground notification.
+     * 2. Activates a [MediaSessionCompat] so media keys are routed to Android Auto.
+     * 3. Starts the SSL handshake ([CommManager.startHandshake]) **in parallel** with
+     *    launching [AapProjectionActivity], hiding multi-second handshake latency behind
+     *    activity-inflation time.
+     *
+     * The inbound message loop ([CommManager.startReading]) is intentionally NOT started
+     * here. It is deferred until [AapProjectionActivity] confirms its render surface is
+     * ready (via [CommManager.ConnectionState.HandshakeComplete] observer), guaranteeing
+     * that [VideoDecoder.setSurface] is always called before the first video frame arrives.
      */
     private fun onConnected() {
         updateNotification()
         mediaSession = MediaSessionCompat(this, "HeadunitRevived").apply { isActive = true }
-        // Start the AAP handshake immediately, before the projection activity even opens.
-        // This hides handshake latency (especially the multi-second USB SSL negotiation) behind
-        // the activity startup time rather than adding it on top.
-        serviceScope.launch { commManager.startTransport() }
+        serviceScope.launch { commManager.startHandshake() }
         startActivity(AapProjectionActivity.intent(this).apply {
             putExtra(AapProjectionActivity.EXTRA_FOCUS, true)
             addFlags(Intent.FLAG_ACTIVITY_REORDER_TO_FRONT)

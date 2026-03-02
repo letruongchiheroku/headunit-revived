@@ -30,11 +30,15 @@ import java.net.Socket
  * ```
  *   Disconnected ──connect()──► Connecting ──success──► Connected
  *                                                            │
- *                                                    startTransport()
+ *                                                   startHandshake()
  *                                                            │
- *                                                    StartingTransport
+ *                                                   StartingTransport
  *                                                            │
- *                                                     handshake OK
+ *                                                     SSL done
+ *                                                            │
+ *                                                   HandshakeComplete
+ *                                                            │
+ *                                                    startReading()
  *                                                            │
  *                                                    TransportStarted
  *                                                            │
@@ -80,8 +84,13 @@ class CommManager(
         /** Physical connection established; AAP handshake not yet started. */
         object Connected : ConnectionState()
 
-        /** AAP handshake started; waiting for SSL and service-discovery to complete. */
+        /** AAP SSL handshake in progress. */
         object StartingTransport : ConnectionState()
+
+        /**
+         * SSL handshake complete;
+         */
+        object HandshakeComplete : ConnectionState()
 
         /** AAP handshake complete; the transport is ready to send and receive messages. */
         object TransportStarted : ConnectionState()
@@ -121,6 +130,7 @@ class CommManager(
         get() = connectionState.value.let {
             it is ConnectionState.Connected ||
             it is ConnectionState.StartingTransport ||
+            it is ConnectionState.HandshakeComplete ||
             it is ConnectionState.TransportStarted
         }
 
@@ -233,23 +243,26 @@ class CommManager(
     // -----------------------------------------------------------------------------------------
 
     /**
-     * Runs the AAP handshake (SSL + service discovery) over the current connection.
+     * Phase 1: runs the SSL handshake over the current connection.
      *
-     * Must only be called when state is [ConnectionState.Connected]. On success:
-     * 1. Emits [ConnectionState.TransportStarted].
-     * 2. Claims audio focus for `STREAM_MUSIC` so Android Auto audio can play.
+     * Must only be called when state is [ConnectionState.Connected]. On success, emits
+     * [ConnectionState.HandshakeComplete] and returns; the inbound message loop is NOT
+     * started yet. Call [startReading] after [VideoDecoder.setSurface] has been invoked
+     * to begin receiving messages.
      *
      * The [AapTransport.onQuit] callback is wired here; it fires whenever the transport
      * stops (read error, phone bye-bye, timeout) and triggers [transportedQuited].
+     *
+     * Called by [com.andrerinas.headunitrevived.aap.AapService] in parallel with the
+     * projection activity startup, so the handshake latency is hidden behind activity
+     * inflation time rather than added on top of it.
      */
-    suspend fun startTransport() = withContext(Dispatchers.IO) {
+    suspend fun startHandshake() = withContext(Dispatchers.IO) {
         // Another caller already started the handshake — do nothing.
-        if (_connectionState.value is ConnectionState.StartingTransport)
-            return@withContext
+        if (_connectionState.value is ConnectionState.StartingTransport) return@withContext
 
         try {
-            if (_connectionState.value is ConnectionState.Connected)
-            {
+            if (_connectionState.value is ConnectionState.Connected) {
                 _connectionState.emit(ConnectionState.StartingTransport)
 
                 if (_transport == null) {
@@ -257,19 +270,47 @@ class CommManager(
                     _transport = AapTransport(audioDecoder, videoDecoder, audioManager, settings, _backgroundNotification, context, externalSsl = aapSslContext)
                     _transport!!.onQuit = { isClean -> transportedQuited(isClean) }
                 }
-                if (_transport?.start(_connection!!) == true) {
-                    _transport?.aapAudio?.requestFocusChange(
-                        AudioManager.STREAM_MUSIC,
-                        AudioManager.AUDIOFOCUS_GAIN,
-                        AudioManager.OnAudioFocusChangeListener { }
-                    )
-                    _connectionState.emit(ConnectionState.TransportStarted)
+                if (_transport?.startHandshake(_connection!!) == true) {
+                    _connectionState.emit(ConnectionState.HandshakeComplete)
+                } else {
+                    _connectionState.emit(ConnectionState.Error("Handshake failed"))
+                    disconnect()
                 }
             } else {
-                _connectionState.emit(ConnectionState.Error("Starting transport without connection"))
+                _connectionState.emit(ConnectionState.Error("Starting handshake without connection"))
             }
         } catch (e: Exception) {
-            _connectionState.emit(ConnectionState.Error("Connection failed: ${e.message}"))
+            _connectionState.emit(ConnectionState.Error("Handshake failed: ${e.message}"))
+            disconnect()
+        }
+    }
+
+    /**
+     * Phase 2: starts the inbound message loop.
+     *
+     * Must only be called when state is [ConnectionState.HandshakeComplete], which implies
+     * both that the SSL handshake has succeeded **and** that [VideoDecoder.setSurface] has
+     * already been called by [com.andrerinas.headunitrevived.aap.AapProjectionActivity].
+     * This ordering guarantees no video frame is ever decoded before a render target exists.
+     *
+     * On success:
+     * 1. Claims audio focus for `STREAM_MUSIC`.
+     * 2. Starts the [AapTransport] read loop.
+     * 3. Emits [ConnectionState.TransportStarted].
+     */
+    suspend fun startReading() = withContext(Dispatchers.IO) {
+        if (_connectionState.value !is ConnectionState.HandshakeComplete) return@withContext
+
+        try {
+            _transport?.aapAudio?.requestFocusChange(
+                AudioManager.STREAM_MUSIC,
+                AudioManager.AUDIOFOCUS_GAIN,
+                AudioManager.OnAudioFocusChangeListener { }
+            )
+            _transport?.startReading()
+            _connectionState.emit(ConnectionState.TransportStarted)
+        } catch (e: Exception) {
+            _connectionState.emit(ConnectionState.Error("Start reading failed: ${e.message}"))
             disconnect()
         }
     }

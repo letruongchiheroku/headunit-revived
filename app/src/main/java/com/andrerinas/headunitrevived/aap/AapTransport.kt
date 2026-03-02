@@ -41,7 +41,7 @@ import javax.net.ssl.SSLEngineResult
  * - **Send** (`AapTransport:Handler::Send`) — encrypts and delivers outbound messages.
  * - **Poll** (`AapTransport:Handler::Poll`) — reads, decrypts, and dispatches inbound messages.
  *
- * Lifecycle: [start] → message loop → [stop]/[quit].
+ * Lifecycle: [startHandshake] → [startReading] → message loop → [stop]/[quit].
  *
  * @param audioDecoder Decodes PCM audio received from the phone.
  * @param videoDecoder Decodes H.264/H.265 video received from the phone.
@@ -194,8 +194,15 @@ class AapTransport(
         sendThread = null
     }
 
-    internal fun start(connection: AccessoryConnection): Boolean {
-        AppLog.i("Start Aap transport for $connection")
+    /**
+     * Phase 1 of startup: creates the send/poll threads and runs the SSL handshake.
+     *
+     * Returns `true` on success. On failure, threads are stopped via [quit] before returning.
+     * Must be followed by [startReading] (called after the projection surface is ready)
+     * to actually start the message loop.
+     */
+    internal fun startHandshake(connection: AccessoryConnection): Boolean {
+        AppLog.i("Start Aap transport handshake for $connection")
         this.connection = connection
 
         sendThread = HandlerThread("AapTransport:Handler::Send", Process.THREAD_PRIORITY_AUDIO)
@@ -216,8 +223,21 @@ class AapTransport(
             return false
         }
 
+        return true
+    }
+
+    /**
+     * Phase 2 of startup: creates [AapRead] and posts the first [MSG_POLL] to begin the
+     * inbound message loop.
+     *
+     * Must only be called after [startHandshake] has returned `true` **and** after the
+     * projection surface has been set on the [VideoDecoder]. This guarantees that no video
+     * frame is ever decoded before a render target exists.
+     */
+    internal fun startReading() {
+        AppLog.i("Start Aap transport read loop")
         aapRead = AapRead.Factory.create(
-            connection,
+            connection!!,
             this,
             micRecorder,
             aapAudio,
@@ -227,8 +247,6 @@ class AapTransport(
             context
         )
         pollHandler?.sendEmptyMessage(MSG_POLL)
-
-        return true
     }
 
     private fun handshake(connection: AccessoryConnection): Boolean {

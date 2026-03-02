@@ -133,6 +133,22 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
             }
         }
 
+        lifecycleScope.launch {
+            repeatOnLifecycle(Lifecycle.State.STARTED) {
+                commManager.connectionState
+                    .filterIsInstance<CommManager.ConnectionState.HandshakeComplete>()
+                    .collect {
+                        // Handshake done. If the surface is already ready (e.g. reconnect
+                        // while the activity is in the foreground), start reading immediately.
+                        // If not, onSurfaceChanged() will call startReading() when the surface
+                        // becomes available.
+                        if (isSurfaceSet) {
+                            commManager.startReading()
+                        }
+                    }
+            }
+        }
+
         AppLog.i("HeadUnit for Android Auto (tm) - Copyright 2011-2015 Michael A. Reid., since 2025 André Rinas All Rights Reserved...")
 
         val container = findViewById<android.widget.FrameLayout>(R.id.container)
@@ -271,27 +287,21 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
         when (commManager.connectionState.value) {
             is CommManager.ConnectionState.Connected -> {
-                // Fallback: AapService didn't start transport yet (e.g. service restarted).
-                // Night mode sync is handled by AapService's TransportStarted observer.
-                lifecycleScope.launch {
-                    commManager.startTransport()
-                    // Accept TransportStarted (we started it) or StartingTransport (AapService
-                    // beat us to it — the race resolved benignly). Any other state means
-                    // something went wrong and we should tear down.
-                    val state = commManager.connectionState.value
-                    if (state !is CommManager.ConnectionState.TransportStarted &&
-                        state !is CommManager.ConnectionState.StartingTransport) {
-                        commManager.disconnect()
-                    }
-                }
+                // AapService should have started the handshake already, but as a fallback
+                // (e.g. service restarted) kick it off here. The HandshakeComplete observer
+                // will call startReading() once the handshake finishes.
+                lifecycleScope.launch { commManager.startHandshake() }
             }
             is CommManager.ConnectionState.StartingTransport -> {
-                // AapService already started the handshake in parallel with the activity opening.
-                // Do nothing here — AapService's TransportStarted observer will sync night mode
-                // when the handshake completes.
+                // Handshake is in progress. The HandshakeComplete observer will call
+                // startReading() when it finishes.
+            }
+            is CommManager.ConnectionState.HandshakeComplete -> {
+                // Handshake already done before surface was ready — start reading now.
+                lifecycleScope.launch { commManager.startReading() }
             }
             is CommManager.ConnectionState.TransportStarted -> {
-                // Surface recreated after transport was already running; request a keyframe.
+                // Surface recreated while transport was already running; request a keyframe.
                 commManager.send(VideoFocusEvent(gain = true, unsolicited = true))
             }
             else -> {
