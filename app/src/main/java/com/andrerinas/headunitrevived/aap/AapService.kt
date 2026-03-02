@@ -169,7 +169,11 @@ class AapService : Service(), UsbReceiver.Listener {
                         isConnecting.set(true)
                         val usbMode = UsbAccessoryMode(usbManager)
                         if (usbMode.connectAndSwitch(device)) {
-                            AppLog.i("Successfully requested switch to accessory mode for ${deviceCompat.uniqueName}")
+                            AppLog.i("Successfully requested switch to accessory mode for ${deviceCompat.uniqueName}. Waiting for re-enumeration...")
+                            // Reset isConnecting — the AOA switch is done. The actual AAP
+                            // connection will be established by onUsbAttach when the device
+                            // re-enumerates in accessory mode.
+                            isConnecting.set(false)
                             return
                         }
                         isConnecting.set(false)
@@ -184,6 +188,12 @@ class AapService : Service(), UsbReceiver.Listener {
         if (singleUsb) {
             val nonAccessoryDevices = deviceList.values.filter { !UsbDeviceCompat.isInAccessoryMode(it) }
             if (nonAccessoryDevices.size == 1) {
+                // Skip if stability check is already running for this exact device
+                val deviceName = UsbDeviceCompat(nonAccessoryDevices[0]).uniqueName
+                if (usbStabilityJob != null && stableDeviceName == deviceName) {
+                    AppLog.i("checkAlreadyConnectedUsb: stability check already in progress for $deviceName, skipping")
+                    return
+                }
                 startSingleUsbStabilityCheck(nonAccessoryDevices[0])
                 return
             } else if (usbStabilityJob != null) {
@@ -232,12 +242,18 @@ class AapService : Service(), UsbReceiver.Listener {
     private fun performSingleUsbConnect(device: UsbDevice) {
         val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
         if (usbManager.hasPermission(device)) {
-            AppLog.i("Single USB auto-connect: connecting to ${UsbDeviceCompat(device).uniqueName}")
+            val deviceName = UsbDeviceCompat(device).uniqueName
+            AppLog.i("Single USB auto-connect: connecting to $deviceName")
             isConnecting.set(true)
             val usbMode = UsbAccessoryMode(usbManager)
             if (usbMode.connectAndSwitch(device)) {
-                AppLog.i("Successfully requested switch to accessory mode for single USB device")
+                AppLog.i("Successfully requested switch to accessory mode for single USB device. Waiting for re-enumeration...")
+                // Reset isConnecting — the AOA switch is done. The actual AAP connection
+                // will be established by onUsbAttach when the device re-enumerates in
+                // accessory mode (which sets isConnecting again via handleConnectionIntent).
+                isConnecting.set(false)
             } else {
+                AppLog.w("Single USB auto-connect: connectAndSwitch failed for $deviceName")
                 isConnecting.set(false)
             }
         } else {
@@ -908,6 +924,23 @@ class AapService : Service(), UsbReceiver.Listener {
     override fun onUsbAttach(device: UsbDevice) {
         val deviceName = UsbDeviceCompat(device).uniqueName
         AppLog.i("onUsbAttach: device=$deviceName, isConnected=$isConnected, isConnecting=${isConnecting.get()}")
+
+        if (isConnected) {
+            AppLog.i("onUsbAttach: already connected, skipping")
+            return
+        }
+
+        // If the attached device is already in accessory mode, connect directly.
+        // This handles the re-enumeration after connectAndSwitch() where the phone
+        // detaches (e.g. Xiaomi 2717:FF40) and re-appears as a Google AOA device
+        // (18D1:2D00). Without this, checkAlreadyConnectedUsb() would skip because
+        // isConnecting is still true from the AOA mode switch phase.
+        if (UsbDeviceCompat.isInAccessoryMode(device)) {
+            AppLog.i("onUsbAttach: Accessory-mode device $deviceName attached, connecting directly")
+            handleConnectionIntent(createIntent(device, this))
+            return
+        }
+
         val settings = App.provide(this).settings
         if (settings.autoConnectLastSession || settings.autoConnectSingleUsbDevice) {
             checkAlreadyConnectedUsb()
