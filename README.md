@@ -67,6 +67,15 @@ adb shell am start -a android.intent.action.VIEW -d "headunit://connect?ip=192.1
 - **Google Maps in Portrait Mode:** Touch interactions (searching, scrolling) within Google Maps may not work as expected when using Portrait Mode. While visual feedback (like ripple effects) might appear, the map itself may remain unresponsive. This appears to be an internal Android Auto / Google Maps limitation or bug in vertical orientations.
 
 ## Changelog
+### v.1.15.0
+- Added arabic language thanks to A5H0
+- Added new intent for setting day/night mode for maps
+- Added new window flags for older devices to finally fix fullscreen issues
+- Added new intents to make the headunit recognize the app as navigation app
+- Added LegacyOptimizer which will handle things directly and faster for single core cpus. Should improve the performance on Android 4.1 - 4.4 Devices
+- Fixed BT Permission Bug
+- Changed the Twilight-Calculator for better switch to day/night on auto mode to prevent to bright display
+- Added more mediasession logic to gain audio focus and audio routing
 
 ### v.1.14.3
 - **Automation:** Added App Shortcuts for Samsung Modes & Routines support.

@@ -44,11 +44,11 @@
     <uses-permission android:name="android.permission.BLUETOOTH" />
     <uses-permission android:name="android.permission.BLUETOOTH_ADMIN" />
     <uses-permission android:name="android.permission.BLUETOOTH_CONNECT" />
+    <uses-permission android:name="android.permission.BLUETOOTH_SCAN" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.MODIFY_AUDIO_SETTINGS" />
     <uses-permission android:name="android.permission.RECORD_AUDIO" />
     <uses-permission android:name="android.permission.WRITE_SETTINGS" />
-    <uses-permission android:name="android.permission.SYSTEM_ALERT_WINDOW" />
     <uses-permission android:name="android.permission.RECEIVE_BOOT_COMPLETED"/>
     <uses-permission android:name="android.permission.POST_NOTIFICATIONS"/>
     <uses-permission android:name="android.permission.FOREGROUND_SERVICE" />
@@ -70,7 +70,19 @@
             android:hardwareAccelerated="true"
             android:launchMode="singleTop"
             android:screenOrientation="sensor"
-            android:theme="@style/AppTheme" />
+            android:exported="true"
+            android:theme="@style/AppTheme">
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <action android:name="android.intent.action.NAVIGATE" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <category android:name="android.intent.category.APP_MAPS" />
+                <data android:scheme="headunit" android:host="connect" />
+                <data android:scheme="headunit" android:host="disconnect" />
+                <data android:scheme="headunit" android:host="nightmode" />
+            </intent-filter>
+        </activity>
 
         <activity
             android:name=".app.UsbAttachedActivity"
@@ -94,18 +106,11 @@
             android:exported="true">
 
             <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.LAUNCHER" />
                 <category android:name="android.intent.category.APP_MAPS" />
-
-                <action android:name="android.intent.action.MAIN" />
-            </intent-filter>
-
-            <intent-filter>
-                <action android:name="android.intent.action.VIEW" />
-                <category android:name="android.intent.category.DEFAULT" />
-                <category android:name="android.intent.category.BROWSABLE" />
-                <data android:scheme="headunit" android:host="connect" />
+                <category android:name="android.intent.category.APP_NAVIGATION" />
             </intent-filter>
 
             <!-- Navigation Intent Filters -->
@@ -121,6 +126,13 @@
                 <category android:name="android.intent.category.DEFAULT" />
                 <category android:name="android.intent.category.BROWSABLE" />
                 <data android:scheme="google.navigation" />
+            </intent-filter>
+
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <data android:scheme="http" android:host="maps.google.com" />
+                <data android:scheme="https" android:host="maps.google.com" />
             </intent-filter>
 
             <intent-filter>
@@ -169,6 +181,29 @@
                 <action android:name="android.bluetooth.device.action.ACL_CONNECTED" />
             </intent-filter>
         </receiver>
+
+        <activity
+            android:name=".main.AutomationActivity"
+            android:exported="true"
+            android:theme="@android:style/Theme.Translucent.NoTitleBar"
+            android:excludeFromRecents="true"
+            android:noHistory="true"
+            android:taskAffinity="">
+            <intent-filter>
+                <action android:name="com.andrerinas.headunitrevived.ACTION_SET_NIGHT_MODE" />
+                <action android:name="com.andrerinas.headunitrevived.ACTION_CONNECT" />
+                <action android:name="com.andrerinas.headunitrevived.ACTION_DISCONNECT" />
+                <category android:name="android.intent.category.DEFAULT" />
+            </intent-filter>
+            <intent-filter>
+                <action android:name="android.intent.action.VIEW" />
+                <category android:name="android.intent.category.DEFAULT" />
+                <category android:name="android.intent.category.BROWSABLE" />
+                <data android:scheme="headunit" android:host="connect" />
+                <data android:scheme="headunit" android:host="disconnect" />
+                <data android:scheme="headunit" android:host="nightmode" />
+            </intent-filter>
+        </activity>
 
         <provider
             android:name="androidx.core.content.FileProvider"

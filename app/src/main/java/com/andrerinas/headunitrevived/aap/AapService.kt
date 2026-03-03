@@ -4,6 +4,7 @@ import android.app.Notification
 import android.app.PendingIntent
 import android.app.Service
 import android.app.UiModeManager
+import android.content.pm.ServiceInfo
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
@@ -55,6 +56,24 @@ class AapService : Service(), UsbReceiver.Listener {
     private var nightModeManager: NightModeManager? = null
     private var wirelessServer: WirelessServer? = null
     private var mediaSession: MediaSessionCompat? = null
+
+    fun updateMediaSessionState(isPlaying: Boolean) {
+        val state = if (isPlaying) {
+            android.support.v4.media.session.PlaybackStateCompat.STATE_PLAYING
+        } else {
+            android.support.v4.media.session.PlaybackStateCompat.STATE_STOPPED
+        }
+        
+        mediaSession?.setPlaybackState(
+            android.support.v4.media.session.PlaybackStateCompat.Builder()
+                .setState(state, 0, 1.0f)
+                .setActions(android.support.v4.media.session.PlaybackStateCompat.ACTION_PLAY or 
+                           android.support.v4.media.session.PlaybackStateCompat.ACTION_PAUSE or 
+                           android.support.v4.media.session.PlaybackStateCompat.ACTION_STOP)
+                .build()
+        )
+        AppLog.d("MediaSession: State updated to ${if (isPlaying) "PLAYING" else "STOPPED"}")
+    }
 
     private var pendingConnectionType: String = ""
     private var pendingConnectionIp: String = ""
@@ -331,6 +350,14 @@ class AapService : Service(), UsbReceiver.Listener {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
+        // Android 8.0+ requirements: call startForeground as early as possible
+        val notification = createNotification()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.Q) {
+            startForeground(1, notification, ServiceInfo.FOREGROUND_SERVICE_TYPE_CONNECTED_DEVICE or ServiceInfo.FOREGROUND_SERVICE_TYPE_MEDIA_PLAYBACK)
+        } else {
+            startForeground(1, notification)
+        }
+
         if (intent?.action == ACTION_STOP_SERVICE) {
             AppLog.i("Stop action received.");
             isDestroying = true
@@ -342,7 +369,6 @@ class AapService : Service(), UsbReceiver.Listener {
             return START_NOT_STICKY;
         }
 
-        startForeground(1, createNotification());
         when (intent?.action) {
             ACTION_START_SELF_MODE -> {
                 startSelfMode();
@@ -368,6 +394,9 @@ class AapService : Service(), UsbReceiver.Listener {
             }
             ACTION_RESET_USB -> {
                 resetUsbAndReconnect()
+            ACTION_REQUEST_NIGHT_MODE_UPDATE -> {
+                AppLog.i("Night mode update action received.");
+                nightModeManager?.resendCurrentState()
             }
             ACTION_CHECK_USB -> {
                 AppLog.i("ACTION_CHECK_USB received")
@@ -678,6 +707,10 @@ class AapService : Service(), UsbReceiver.Listener {
                     // Create MediaSession to get higher audio priority
                     mediaSession = MediaSessionCompat(this@AapService, "HeadunitRevived").apply {
                         isActive = true
+                    }
+
+                    transport.onAudioFocusStateChanged = { isPlaying ->
+                        updateMediaSessionState(isPlaying)
                     }
 
                     // Sync current night mode state immediately after connection

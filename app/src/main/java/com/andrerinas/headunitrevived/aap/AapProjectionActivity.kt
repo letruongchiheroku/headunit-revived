@@ -116,7 +116,9 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
-        enableEdgeToEdge()
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            enableEdgeToEdge()
+        }
         super.onCreate(savedInstanceState)
 
         val screenOrientation = settings.screenOrientation
@@ -265,6 +267,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
 
     private fun setFullscreen() {
         val container = findViewById<View>(R.id.container)
+        
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT && settings.startInFullscreenMode) {
+            window.addFlags(android.view.WindowManager.LayoutParams.FLAG_FULLSCREEN)
+        }
+
         SystemUI.apply(window, container, settings.startInFullscreenMode)
 
         // Workaround for API < 19 (Jelly Bean) where Sticky Immersive Mode doesn't exist.
@@ -339,6 +346,11 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         val horizontalCorrection = HeadUnitScreenConfig.getHorizontalCorrection()
         val verticalCorrection = HeadUnitScreenConfig.getVerticalCorrection()
 
+        if (horizontalCorrection <= 0 || verticalCorrection <= 0) {
+            AppLog.w("sendTouchEvent: Ignoring touch, screen config not ready yet.")
+            return
+        }
+
         val pointerData = mutableListOf<Triple<Int, Int, Int>>()
         repeat(event.pointerCount) { pointerIndex ->
             val pointerId = event.getPointerId(pointerIndex)
@@ -370,6 +382,14 @@ class AapProjectionActivity : SurfaceActivity(), IProjectionView.Callbacks, Vide
         return true
     }
 
+    override fun dispatchTouchEvent(event: MotionEvent): Boolean {
+        // On older devices (API < 19), the system often consumes the first touch 
+        // to show system bars. By handling it here, we ensure it's sent to AA.
+        if (Build.VERSION.SDK_INT < Build.VERSION_CODES.KITKAT) {
+            sendTouchEvent(event)
+        }
+        return super.dispatchTouchEvent(event)
+    }
 
     private fun onKeyEvent(keyCode: Int, isPress: Boolean) {
         transport.send(keyCode, isPress)

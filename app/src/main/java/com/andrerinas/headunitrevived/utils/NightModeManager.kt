@@ -99,6 +99,10 @@ class NightModeManager(
 
     fun resendCurrentState() {
         // Force a fresh check and SEND even if value hasn't changed (e.g. new connection)
+        nightModeCalculator = NightMode(settings, true)
+        nightModeCalculator.currentLux = currentLux
+        nightModeCalculator.currentBrightness = currentBrightness
+        
         refreshListeners()
         lastEmittedValue = null // Invalidate cache to force emission
         update(debounce = false)

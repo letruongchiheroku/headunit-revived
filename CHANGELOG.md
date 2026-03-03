@@ -1,4 +1,14 @@
 # Changelog
+### v.1.15.0
+- Added arabic language thanks to A5H0
+- Added new intent for setting day/night mode for maps
+- Added new window flags for older devices to finally fix fullscreen issues
+- Added new intents to make the headunit recognize the app as navigation app
+- Added LegacyOptimizer which will handle things directly and faster for single core cpus. Should improve the performance on Android 4.1 - 4.4 Devices
+- Fixed BT Permission Bug
+- Changed the Twilight-Calculator for better switch to day/night on auto mode to prevent to bright display
+- Added more mediasession logic to gain audio focus and audio routing
+- 
 ### v.1.14.3
 - New Feature: Added **App Shortcuts** for quick Connect/Disconnect. Now compatible with Samsung Modes & Routines.
 - New Feature: Registered HURev as an official system navigation provider (Category: Maps).

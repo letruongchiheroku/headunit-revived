@@ -1,0 +1,236 @@
+<resources>
+    <string name="app_name">Headunit Revived</string>
+    <string name="menu">القائمة</string>
+    <string name="settings">الإعدادات</string>
+
+    <string name="title_activity_settings">نشاط الإعدادات</string>
+    <string name="dummy_button">زر تجريبي</string>
+    <string name="dummy_content">محتوى\nتجريبي</string>
+    <string name="allowed">مسموح</string>
+    <string name="ignored">تجاهل</string>
+    <string name="exit">خروج</string>
+    <string name="video">Android Auto</string>
+    <string name="self_mode">الوضع الذاتي</string>
+    <string name="to_android_auto">إلى Android Auto</string>
+    <string name="title">Headunit Revived</string>
+    <string name="remove">إزالة</string>
+    <string name="usb">USB</string>
+    <string name="wifi">واي فاي</string>
+    <string name="dpi">كثافة البكسل (DPI)</string>
+    <string name="mic_sample_rate">معدل أخذ عينات الميكروفون</string>
+    <string name="keymap">مفاتيح التحكم</string>
+    <string name="night_mode">الوضع الليلي</string>
+    <string name="night_mode_threshold">عتبة الوضع الليلي</string>
+    <string name="enter_threshold_value">أدخل قيمة العتبة</string>
+    <string name="threshold_lux_desc">قيمة Lux (0–10000). ما دونها = ليلي.</string>
+    <string name="threshold_brightness_desc">قيمة السطوع (0–255). ما دونها = ليلي.</string>
+    <string name="night_mode_start">وقت بدء الوضع الليلي</string>
+    <string name="night_mode_end">وقت انتهاء الوضع الليلي</string>
+
+    <string name="reconnection_required_title">يلزم إعادة الاتصال</string>
+    <string name="reconnection_required_message">الجهاز في حالة انتظار. يرجى فصل كابل USB وإعادة توصيله لبدء Android Auto مجددا.</string>
+
+    <string name="bluetooth_address_s">عنوان البلوتوث</string>
+    <string name="enter_bluetooth_mac">أدخل عنوان MAC للبلوتوث</string>
+    <string name="reset">إعادة تعيين</string>
+    <string name="gps_for_navigation">GPS للملاحة</string>
+    <string name="gps_for_navigation_description">استخدام GPS للملاحة</string>
+    <string name="enabled">مفعل</string>
+    <string name="disabled">معطل</string>
+    <string name="resolution">الدقة</string>
+    <string name="change_resolution">تغيير الدقة</string>
+    <string name="change_dpi">تغيير DPI</string>
+    <string name="change_view_mode">تغيير وضع العرض</string>
+    <string name="view_mode">وضع العرض</string>
+    <string name="surface_view">SurfaceView</string>
+    <string name="texture_view">TextureView</string>
+    <string name="gles_view">GLES20</string>
+    <string name="auto">تلقائي</string>
+    <string name="screen_orientation">اتجاه الشاشة</string>
+    <string name="change_screen_orientation">تغيير اتجاه الشاشة</string>
+    <string name="orientation_system_default">افتراضي النظام</string>
+    <string name="orientation_auto_sensor">تلقائي (مستشعر)</string>
+    <string name="orientation_landscape">أفقي (0°)</string>
+    <string name="orientation_landscape_reverse">أفقي معكوس (180°)</string>
+    <string name="orientation_portrait">عمودي (90°)</string>
+    <string name="orientation_portrait_reverse">عمودي معكوس (270°)</string>
+    <string name="enter_dpi_value">أدخل قيمة DPI (0 للتلقائي)</string>
+    <string name="custom_margin">هوامش مخصصة</string>
+    <string name="custom_margin_description">تعيين هوامش عرض مخصصة (0 للتلقائي)</string>
+    <string name="enter_custom_margins">أدخل الهوامش المخصصة (0 للتلقائي)</string>
+    <string name="margin_left">يسار</string>
+    <string name="margin_top">أعلى</string>
+    <string name="margin_right">يمين</string>
+    <string name="margin_bottom">أسفل</string>
+
+    <string name="start_in_fullscreen_mode">البدء في وضع ملء الشاشة</string>
+    <string name="start_in_fullscreen_mode_description">تبديل وضع ملء الشاشة. يلزم إعادة تشغيل التطبيق لتطبيق التغييرات.</string>
+
+    <string name="usb_status">حالة USB: %s</string>
+    <string name="projection_status">حالة الإسقاط: %s</string>
+    <string name="connected">متصل</string>
+    <string name="disconnected">غير متصل</string>
+    <string name="running">يعمل</string>
+    <string name="not_running">لا يعمل</string>
+    <string name="no_android_auto_device_connected">لا يوجد جهاز Android Auto متصل. يرجى التحقق من توصيل USB.</string>
+    <string name="no_usb_device_connected">لا يوجد جهاز USB متصل بالجهاز.</string>
+    <string name="press_back_again_to_exit">اضغط رجوع مرة أخرى للخروج</string>
+    <string name="back">رجوع</string>
+    <string name="debug_mode">وضع التصحيح</string>
+    <string name="debug_mode_description">تفعيل المزيد من السجلات</string>
+    <string name="export_logs">تصدير السجلات</string>
+    <string name="export_logs_description">حفظ السجلات لأغراض التصحيح</string>
+    <string name="use_native_ssl">استخدام SSL الأصلي</string>
+    <string name="use_native_ssl_description">استخدام مكتبة OpenSSL الأصلية (أسرع على الأجهزة القديمة). يتطلب إعادة التشغيل.</string>
+    <string name="not_set">غير محدد</string>
+    <string name="keymap_description">تغيير اختصارات المفاتيح لوحدة الرأس</string>
+
+    <string name="key_soft_left">يسار</string>
+    <string name="key_soft_right">يمين</string>
+    <string name="key_dpad_up">D-Pad أعلى</string>
+    <string name="key_dpad_down">D-Pad أسفل</string>
+    <string name="key_dpad_left">D-Pad يسار</string>
+    <string name="key_dpad_right">D-Pad يمين</string>
+    <string name="key_dpad_center">D-Pad وسط (موافق)</string>
+    <string name="key_media_play">تشغيل</string>
+    <string name="key_media_pause">إيقاف</string>
+    <string name="key_media_play_pause">تشغيل / إيقاف</string>
+    <string name="key_media_next">المقطع التالي</string>
+    <string name="key_media_prev">المقطع السابق</string>
+    <string name="key_search">الأوامر الصوتية</string>
+    <string name="key_call">الهاتف</string>
+    <string name="key_music">الموسيقى</string>
+    <string name="key_nav">الملاحة</string>
+    <string name="key_night">تبديل الوضع الليلي</string>
+
+    <!-- Language Settings -->
+    <string name="app_language">لغة التطبيق</string>
+    <string name="system_default">افتراضي النظام</string>
+    <string name="change_language">تغيير اللغة</string>
+
+    <!-- Categories for SettingsFragment -->
+    <string name="category_general">عام</string>
+    <string name="auto_start_self_mode">تشغيل الوضع الذاتي تلقائيا</string>
+    <string name="auto_start_self_mode_description">تشغيل الوضع الذاتي تلقائيا عند فتح التطبيق.</string>
+    <string name="usb_auto_connect">الاتصال التلقائي بـ USB</string>
+    <string name="usb_auto_connect_description">الاتصال تلقائيا بجهاز USB معروف عند فتح التطبيق.</string>
+    <string name="auto_start_bt_label">التشغيل التلقائي عبر البلوتوث</string>
+    <string name="auto_start_bt_description">فتح Headunit Revived تلقائيا عند اتصال جهاز بلوتوث محدد.</string>
+    <string name="select_bt_device">اختر جهاز البلوتوث</string>
+    <string name="bt_device_not_set">غير محدد</string>
+    <string name="overlay_permission_title">إذن البدء في الخلفية</string>
+    <string name="overlay_permission_description">للسماح لـ Headunit Revived بالفتح التلقائي عند اتصال البلوتوث، يرجى تفعيل إذن "العرض فوق التطبيقات الأخرى" في الشاشة التالية.</string>
+    <string name="open_settings">الإعدادات</string>
+    <string name="right_hand_drive">القيادة على اليمين</string>
+    <string name="right_hand_drive_description">ضبط واجهة المستخدم للقيادة على الجانب الأيمن</string>
+    <string name="category_graphic">الرسوميات</string>
+    <string name="custom_insets">حواف مخصصة (هوامش)</string>
+    <string name="inset_top">أعلى</string>
+    <string name="inset_bottom">أسفل</string>
+    <string name="inset_left">يسار</string>
+    <string name="inset_right">يمين</string>
+    <string name="category_debug">تصحيح الأخطاء</string>
+
+    <!-- Video Settings -->
+    <string name="category_video">الفيديو</string>
+    <string name="force_software_decoding">فرض فك التشفير البرمجي</string>
+    <string name="force_software_decoding_description">قد يحل مشاكل على بعض الأجهزة، لكنه أقل كفاءة</string>
+    <string name="wireless_mode">وضع لاسلكي</string>
+    <string name="wireless_mode_description">اختر كيفية اتصال التطبيق لا سلكيا (قائمة يدوية، بحث تلقائي عن الهاتف، أو وضع التشغيل اللاسلكي)</string>
+    <string-array name="wireless_connection_modes">
+        <item>يدوي (قائمة)</item>
+        <item>بحث تلقائي (خادم Headunit)</item>
+        <item>مساعد لاسلكي (في انتظار الهاتف)</item>
+    </string-array>
+    <string name="auto_connect_last_session">الاتصال التلقائي بالجلسة الأخيرة</string>
+    <string name="auto_connect_last_session_description">إعادة الاتصال تلقائيا بآخر جهاز مستخدم عند بدء التطبيق</string>
+    <string name="video_codec">ترميز الفيديو</string>
+    <string name="fps_limit">حد معدل الإطارات</string>
+    <string name="save">حفظ</string>
+    <string name="save_and_restart">حفظ (يلزم إعادة الاتصال)</string>
+    <string name="add_new">إضافة جديد</string>
+    <string name="cancel">إلغاء</string>
+
+    <!-- Audio Settings -->
+    <string name="category_audio">الصوت</string>
+    <string name="enable_audio_sink">مخرج الصوت</string>
+    <string name="enable_audio_sink_description">إذا كان معطلا، لن تستقبل وحدة الرأس الصوت. سيشغل الصوت من الهاتف.</string>
+    <string name="use_aac_audio">استخدام ترميز AAC للصوت</string>
+    <string name="use_aac_audio_description">استخدام ترميز AAC للصوت لتوفير عرض النطاق الترددي (تجريبي).</string>
+    <string name="audio_volume_offset">تعويض مستوى الصوت</string>
+    <string name="media_volume_offset">تعويض مستوى صوت الوسائط</string>
+    <string name="assistant_volume_offset">تعويض مستوى صوت المساعد</string>
+    <string name="navigation_volume_offset">تعويض مستوى صوت الملاحة</string>
+    <string name="mic_input_source">مصدر إدخال الميكروفون</string>
+    <string name="mic_input_source_description">اختر مصدر الصوت للميكروفون.</string>
+    <string-array name="mic_input_sources">
+        <item>افتراضي</item>
+        <item>ميكروفون</item>
+        <item>التعرف على الصوت</item>
+        <item>الاتصال الصوتي</item>
+    </string-array>
+
+    <!-- Info Settings -->
+    <string name="category_info">المعلومات</string>
+    <string name="about">حول &amp; الدعم</string>
+    <string name="about_description">الحصول على مزيد من المعلومات حول Headunit Revived</string>
+    <string name="version">الإصدار</string>
+    <string name="about_title">حول Headunit Revived</string>
+    <string name="copyright">© 2025-%d André Rinas</string>
+
+    <!-- Safety Disclaimer -->
+    <string name="disclaimer_title">السلامة &amp; المسؤولية</string>
+    <string name="disclaimer_header">تحذير مهم</string>
+    <string name="disclaimer_accept">أفهم وأوافق</string>
+    <string name="disclaimer_text"><![CDATA[
+        <b>١. التركيز على الطريق</b><br/>
+        استخدام هذا البرنامج أثناء القيادة قد يشتت الانتباه ويكون خطيرا. أول الأولوية دائما للقيادة الآمنة والالتزام بأنظمة المرور المحلية. استخدم هذا التطبيق فقط عند الأمان التام.<br/><br/>
+        <b>٢. تحديد المسؤولية</b><br/>
+        يقدم Headunit Revived "كما هو" دون أي ضمان من أي نوع. لا يتحمل المطورون أي مسؤولية عن الحوادث أو الأضرار التي تلحق بسيارتك/جهازك أو أي تبعات قانونية ناجمة عن استخدام هذا البرنامج.<br/><br/>
+        <b>٣. عدم الانتساب</b><br/>
+        هذا المشروع مبادرة مفتوحة المصدر مستقلة، وليس له أي صلة أو اعتماد أو ارتباط بشركة Google LLC أو علامة Android Auto التجارية.
+    ]]></string>
+
+    <!-- Toast Messages -->
+    <string name="searching">جار البحث…</string>
+    <string name="auto_connecting_to">الاتصال التلقائي بـ %s…</string>
+    <string name="auto_connecting_usb">الاتصال التلقائي بجهاز USB…</string>
+    <string name="already_connected">متصل بالفعل</string>
+    <string name="already_scanning">جار الفحص بالفعل…</string>
+    <string name="searching_headunit_server">جار البحث عن خادم Headunit…</string>
+    <string name="already_searching_phone">جار البحث عن الهاتف بالفعل…</string>
+    <string name="searching_phone">جار البحث عن الهاتف…</string>
+    <string name="key_mappings_reset">تمت إعادة تعيين اختصارات المفاتيح</string>
+    <string name="press_key_to_assign">اضغط مفتاحا لتعيينه لـ \'%s\'…</string>
+    <string name="key_assigned">\'%1$s\' معين لـ \'%2$s\'</string>
+    <string name="last_key_press">آخر ضغطة مفتاح: %1$s (%2$d)</string>
+    <string name="scan">فحص</string>
+    <string name="scanning_network">جار فحص الشبكة…</string>
+    <string name="found_connecting">تم العثور على %s، جار الاتصال…</string>
+    <string name="no_devices_found">لم يتم العثور على أجهزة</string>
+    <string name="unsaved_changes">تغييرات غير محفوظة</string>
+    <string name="unsaved_changes_message">لديك تغييرات غير محفوظة. هل تريد تجاهلها؟</string>
+    <string name="discard">تجاهل</string>
+    <string name="stopping_service">إيقاف الخدمة لتطبيق التغييرات…</string>
+    <string name="settings_saved">تم حفظ الإعدادات</string>
+    <string name="logs_exported">تم تصدير السجلات</string>
+    <string name="log_saved_to">تم حفظ السجل في:\n%s</string>
+    <string name="share">مشاركة</string>
+    <string name="close">إغلاق</string>
+    <string name="failed_export_logs">فشل تصدير السجلات</string>
+    <string name="switching_to_android_auto">جار التبديل إلى Android Auto…</string>
+    <string name="switch_failed">فشل التبديل</string>
+    <string name="requesting_usb_permission">طلب إذن USB…</string>
+    <string name="enter_ip_address">أدخل عنوان IP</string>
+    <string name="switching_usb_accessory_mode">تبديل جهاز USB إلى وضع الملحق %s</string>
+    <string name="success">نجاح</string>
+    <string name="failed">فشل</string>
+    <string name="failed_start_android_auto">فشل تشغيل Android Auto</string>
+    <string name="android_auto_starting">جار تشغيل Android Auto…</string>
+    <string name="notification_service_running">Headunit Revived يعمل</string>
+    <string name="notification_projection_active">Android Auto قيد الإسقاط</string>
+    <string name="shortcut_connect_title">اتصال</string>
+    <string name="shortcut_connect_desc">الاتصال بآخر جهاز معروف</string>
+    <string name="shortcut_disconnect_title">قطع الاتصال</string>
+    <string name="shortcut_disconnect_desc">إنهاء الجلسة الحالية</string>
+</resources>

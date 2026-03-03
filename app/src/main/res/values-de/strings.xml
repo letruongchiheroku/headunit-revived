@@ -264,4 +264,10 @@
     <string name="retry_connection_option">Android Auto wiederholen</string>
     <string name="reset_usb_option">USB-Verbindung zurücksetzen</string>
     <string name="reset_usb_timeout">USB-Gerät nicht gefunden. Bitte Verbindung prüfen.</string>
+    <string name="shortcut_night_mode_auto_title">Modus: Auto</string>
+    <string name="shortcut_night_mode_auto_desc">Automatischen Nachtmodus wiederherstellen</string>
+    <string name="shortcut_night_mode_day_title">Modus: Tag</string>
+    <string name="shortcut_night_mode_day_desc">Tagmodus erzwingen</string>
+    <string name="shortcut_night_mode_night_title">Modus: Nacht</string>
+    <string name="shortcut_night_mode_night_desc">Nachtmodus erzwingen</string>
 </resources>
