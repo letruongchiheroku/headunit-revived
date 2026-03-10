@@ -255,20 +255,18 @@ class UsbAccessoryConnection(private val usbMgr: UsbManager, private val device:
                     }
                     return if (totalReturned > 0) totalReturned else -1
                 }
+                // If we reach here, read is 0 or positive, meaning no error.
+                // Reset error counters if they were active.
+                if (consecutiveReadErrors > 0) {
+                    AppLog.i("USB reads recovered after $consecutiveReadErrors errors")
+                    consecutiveReadErrors = 0
+                    firstErrorTimeMs = 0
+                }
+
                 if (read == 0) {
-                    if (consecutiveReadErrors > 0) {
-                        AppLog.i("USB reads recovered after $consecutiveReadErrors errors")
-                        consecutiveReadErrors = 0
-                        firstErrorTimeMs = 0
-                    }
                     return totalReturned
                 }
 
-                if (consecutiveReadErrors > 0) {
-                    AppLog.i("USB reads recovered after $consecutiveReadErrors errors")
-                }
-                consecutiveReadErrors = 0
-                firstErrorTimeMs = 0
                 internalBufferPos = 0
                 internalBufferAvailable = read
                 // Loop will continue and serve from the new internalBuffer data

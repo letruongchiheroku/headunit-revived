@@ -347,7 +347,7 @@ class AapService : Service(), UsbReceiver.Listener {
         if (Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP) return
         networkCallback?.let {
             val cm = getSystemService(Context.CONNECTIVITY_SERVICE) as ConnectivityManager
-            try { cm.unregisterNetworkCallback(it) } catch (_: Exception) {}
+            try { cm.unregisterNetworkCallback(it) } catch (e: IllegalArgumentException) { AppLog.w("Network callback not registered or already unregistered", e) }
             networkCallback = null
         }
     }
