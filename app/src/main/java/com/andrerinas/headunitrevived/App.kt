@@ -56,6 +56,8 @@ class App : Application() {
             mediaChannel.setSound(null, null)
             mediaChannel.setShowBadge(false)
             component.notificationManager.createNotificationChannel(mediaChannel)
+
+            com.andrerinas.headunitrevived.aap.AapNavigation.createNotificationChannel(this)
         }
 
         // Register the main broadcast receiver safely for Android 14+ using ContextCompat
