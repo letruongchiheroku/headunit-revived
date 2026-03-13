@@ -65,6 +65,7 @@ class AppThemeManager(
     }
 
     fun start() {
+        AppLog.d("AppThemeManager: Starting with mode=${settings.appTheme}, luxThreshold=${settings.nightModeThresholdLux}, brightnessThreshold=${settings.nightModeThresholdBrightness}")
         val filter = IntentFilter().apply {
             addAction(Intent.ACTION_TIME_TICK)
             addAction(LocationUpdateIntent.action)
@@ -138,6 +139,7 @@ class AppThemeManager(
                     } else {
                         currentLux < threshold
                     }
+                    AppLog.d("AppThemeManager: LIGHT_SENSOR lux=$currentLux threshold=$threshold isNight=$isNight")
                 }
             }
             Settings.AppTheme.SCREEN_BRIGHTNESS -> {
@@ -153,6 +155,7 @@ class AppThemeManager(
                     } else {
                         currentBrightness < thresholdBrightness
                     }
+                    AppLog.d("AppThemeManager: SCREEN_BRIGHTNESS brightness=$currentBrightness threshold=$thresholdBrightness isNight=$isNight")
                 } catch (e: Exception) {
                     AppLog.e("AppThemeManager: Failed to read brightness", e)
                 }
@@ -160,6 +163,7 @@ class AppThemeManager(
             Settings.AppTheme.AUTO_SUNRISE -> {
                 nightModeCalculator = NightMode(settings, true)
                 isNight = nightModeCalculator.current
+                AppLog.d("AppThemeManager: AUTO_SUNRISE isNight=$isNight")
             }
             Settings.AppTheme.MANUAL_TIME -> {
                 val now = Calendar.getInstance()
@@ -171,6 +175,7 @@ class AppThemeManager(
                 } else {
                     currentMinutes >= start || currentMinutes <= end
                 }
+                AppLog.d("AppThemeManager: MANUAL_TIME currentMinutes=$currentMinutes start=$start end=$end isNight=$isNight")
             }
             else -> return
         }
@@ -213,6 +218,9 @@ class AppThemeManager(
     }
 
     override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
+
+    fun getCurrentLux(): Float = currentLux
+    fun getCurrentBrightness(): Int = currentBrightness
 
     companion object {
         fun applyStaticTheme(settings: Settings) {

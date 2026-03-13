@@ -27,13 +27,17 @@ import com.andrerinas.headunitrevived.utils.AppThemeManager
 import com.andrerinas.headunitrevived.utils.Settings
 import com.andrerinas.headunitrevived.utils.LocaleHelper
 import com.andrerinas.headunitrevived.BuildConfig
+import android.hardware.Sensor
+import android.hardware.SensorEvent
+import android.hardware.SensorEventListener
+import android.hardware.SensorManager
 import java.util.Locale
 import androidx.activity.result.contract.ActivityResultContracts
 import com.google.android.material.appbar.MaterialToolbar
 import com.google.android.material.button.MaterialButton
 import com.google.android.material.dialog.MaterialAlertDialogBuilder
 
-class SettingsFragment : Fragment() {
+class SettingsFragment : Fragment(), SensorEventListener {
     private lateinit var settings: Settings
     private lateinit var settingsRecyclerView: RecyclerView
     private lateinit var settingsAdapter: SettingsAdapter
@@ -93,6 +97,10 @@ class SettingsFragment : Fragment() {
 
     private var pendingAutoStartOnUsb: Boolean? = null
     private var pendingAppTheme: Settings.AppTheme? = null
+
+    // Direct light sensor reading (independent of AppThemeManager)
+    private var cachedLux: Float = -1f
+    private var sensorManager: SensorManager? = null
 
     private var pendingMediaVolumeOffset: Int? = null
     private var pendingAssistantVolumeOffset: Int? = null
@@ -166,6 +174,14 @@ class SettingsFragment : Fragment() {
         updateSettingsList()
         setupToolbar()
     }
+
+    override fun onSensorChanged(event: SensorEvent) {
+        if (event.sensor.type == Sensor.TYPE_LIGHT) {
+            cachedLux = event.values[0]
+        }
+    }
+
+    override fun onAccuracyChanged(sensor: Sensor?, accuracy: Int) {}
 
     private fun setupToolbar() {
         toolbar.setNavigationOnClickListener {
@@ -249,9 +265,13 @@ class SettingsFragment : Fragment() {
         pendingNavigationVolumeOffset?.let { settings.navigationVolumeOffset = it }
 
         val themeChanged = pendingAppTheme != settings.appTheme
+        val thresholdChanged = pendingThresholdLux != settings.nightModeThresholdLux ||
+                pendingThresholdBrightness != settings.nightModeThresholdBrightness ||
+                pendingManualStart != settings.nightModeManualStart ||
+                pendingManualEnd != settings.nightModeManualEnd
         pendingAppTheme?.let { newTheme ->
             settings.appTheme = newTheme
-            if (themeChanged) {
+            if (themeChanged || (thresholdChanged && !AppThemeManager.isStaticMode(newTheme))) {
                 // Stop existing auto theme manager
                 com.andrerinas.headunitrevived.App.appThemeManager?.stop()
                 com.andrerinas.headunitrevived.App.appThemeManager = null
@@ -569,10 +589,23 @@ class SettingsFragment : Fragment() {
             val percentage = ((currentValue ?: 0) * 100 / maxVal).coerceIn(0, 100)
             val title = getString(if (isSensor) R.string.threshold_light_title else R.string.threshold_brightness_title)
             val hint = getString(if (isSensor) R.string.threshold_light_hint else R.string.threshold_brightness_hint)
-            val displayValue = if (isSensor) {
-                "${currentValue ?: 0} Lux"
+            val currentReading = if (isSensor) {
+                if (cachedLux >= 0) getString(R.string.current_light_reading, cachedLux.toInt()) else ""
             } else {
-                "$percentage%"
+                try {
+                    val brightness = android.provider.Settings.System.getInt(
+                        requireContext().contentResolver,
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS
+                    )
+                    getString(R.string.current_brightness_reading, brightness * 100 / 255)
+                } catch (e: Exception) { "" }
+            }
+            // Show threshold + current reading in list for clarity
+            val displayValue = if (isSensor) {
+                val base = "${currentValue ?: 0} Lux"
+                if (currentReading.isNotEmpty()) "$base ($currentReading)" else base
+            } else {
+                if (currentReading.isNotEmpty()) "$percentage% ($currentReading)" else "$percentage%"
             }
 
             items.add(SettingItem.SettingEntry(
@@ -591,6 +624,7 @@ class SettingsFragment : Fragment() {
                         } else {
                             { p -> "$p%" }
                         },
+                        currentReading = currentReading,
                         onConfirm = { newPercentage ->
                             val newVal = newPercentage * maxVal / 100
                             if (isSensor) {
@@ -673,10 +707,22 @@ class SettingsFragment : Fragment() {
             val percentage = ((currentValue ?: 0) * 100 / maxVal).coerceIn(0, 100)
             val title = getString(if (isSensor) R.string.threshold_light_title else R.string.threshold_brightness_title)
             val hint = getString(if (isSensor) R.string.threshold_light_hint else R.string.threshold_brightness_hint)
-            val displayValue = if (isSensor) {
-                "${currentValue ?: 0} Lux"
+            val nmCurrentReading = if (isSensor) {
+                if (cachedLux >= 0) getString(R.string.current_light_reading, cachedLux.toInt()) else ""
             } else {
-                "$percentage%"
+                try {
+                    val brightness = android.provider.Settings.System.getInt(
+                        requireContext().contentResolver,
+                        android.provider.Settings.System.SCREEN_BRIGHTNESS
+                    )
+                    getString(R.string.current_brightness_reading, brightness * 100 / 255)
+                } catch (e: Exception) { "" }
+            }
+            val displayValue = if (isSensor) {
+                val base = "${currentValue ?: 0} Lux"
+                if (nmCurrentReading.isNotEmpty()) "$base ($nmCurrentReading)" else base
+            } else {
+                if (nmCurrentReading.isNotEmpty()) "$percentage% ($nmCurrentReading)" else "$percentage%"
             }
 
             items.add(SettingItem.SettingEntry(
@@ -695,6 +741,7 @@ class SettingsFragment : Fragment() {
                         } else {
                             { p -> "$p%" }
                         },
+                        currentReading = nmCurrentReading,
                         onConfirm = { newPercentage ->
                             val newVal = newPercentage * maxVal / 100
                             if (isSensor) {
@@ -1295,12 +1342,22 @@ class SettingsFragment : Fragment() {
 
     override fun onResume() {
         super.onResume()
+        // Register light sensor for live lux reading
+        sensorManager = requireContext().getSystemService(Context.SENSOR_SERVICE) as? SensorManager
+        val lightSensor = sensorManager?.getDefaultSensor(Sensor.TYPE_LIGHT)
+        if (lightSensor != null) {
+            sensorManager?.registerListener(this, lightSensor, SensorManager.SENSOR_DELAY_NORMAL)
+        }
         // Refresh settings list when returning from sub-screens (e.g. AutoConnectFragment)
         if (::settingsAdapter.isInitialized) {
-            // Re-read settings in case they changed in a sub-screen
             settings = App.provide(requireContext()).settings
             updateSettingsList()
         }
+    }
+
+    override fun onPause() {
+        super.onPause()
+        sensorManager?.unregisterListener(this)
     }
 
     private fun getAutoConnectSummary(): String {
@@ -1387,6 +1444,7 @@ class SettingsFragment : Fragment() {
         minLabel: String,
         maxLabel: String,
         formatValue: (Int) -> String,
+        currentReading: String = "",
         onConfirm: (Int) -> Unit
     ) {
         val context = requireContext()
@@ -1459,6 +1517,23 @@ class SettingsFragment : Fragment() {
         rangeRow.addView(minText)
         rangeRow.addView(maxText)
         layout.addView(rangeRow)
+
+        // Current reading label below slider
+        if (currentReading.isNotEmpty()) {
+            val readingLabel = android.widget.TextView(context).apply {
+                text = currentReading
+                textSize = 16f
+                gravity = android.view.Gravity.CENTER
+                setTextColor(context.resources.getColor(android.R.color.darker_gray, null))
+                val lp = android.widget.LinearLayout.LayoutParams(
+                    android.widget.LinearLayout.LayoutParams.MATCH_PARENT,
+                    android.widget.LinearLayout.LayoutParams.WRAP_CONTENT
+                )
+                lp.topMargin = (16 * density).toInt()
+                layoutParams = lp
+            }
+            layout.addView(readingLabel)
+        }
 
         MaterialAlertDialogBuilder(context, R.style.DarkAlertDialog)
             .setTitle(title)

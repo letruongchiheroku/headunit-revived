@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">مستوى السطوع</string>
     <string name="threshold_light_hint">يتم تفعيل الوضع الداكن عندما ينخفض الضوء المحيط عن هذا المستوى</string>
     <string name="threshold_brightness_hint">يتم تفعيل الوضع الداكن عندما يكون سطوع الشاشة أقل من هذا المستوى</string>
+    <string name="current_light_reading">الضوء الحالي: %d لوكس</string>
+    <string name="current_brightness_reading">السطوع الحالي: %d%%</string>
     <string name="night_mode_start">وقت بدء الوضع الليلي</string>
     <string name="night_mode_end">وقت انتهاء الوضع الليلي</string>
 

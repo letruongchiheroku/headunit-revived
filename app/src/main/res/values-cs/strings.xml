@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">Úroveň jasu</string>
     <string name="threshold_light_hint">Tmavý režim se aktivuje, když okolní světlo klesne pod tuto úroveň</string>
     <string name="threshold_brightness_hint">Tmavý režim se aktivuje, když je jas obrazovky pod touto úrovní</string>
+    <string name="current_light_reading">Aktuální světlo: %d Lux</string>
+    <string name="current_brightness_reading">Aktuální jas: %d%%</string>
     <string name="night_mode_start">Čas zahájení nočního režimu</string>
     <string name="night_mode_end">Čas ukončení nočního režimu</string>
 

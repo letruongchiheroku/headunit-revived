@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">Nível de brilho</string>
     <string name="threshold_light_hint">O modo escuro é ativado quando a luz ambiente cai abaixo deste nível</string>
     <string name="threshold_brightness_hint">O modo escuro é ativado quando o brilho da tela está abaixo deste nível</string>
+    <string name="current_light_reading">Luz atual: %d Lux</string>
+    <string name="current_brightness_reading">Brilho atual: %d%%</string>
     <string name="night_mode_start">Hora de início do modo noturno</string>
     <string name="night_mode_end">Hora de término do modo noturno</string>
 

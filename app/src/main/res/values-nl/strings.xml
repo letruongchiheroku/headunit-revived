@@ -27,6 +27,8 @@
     <string name="threshold_brightness_title">Helderheidsniveau</string>
     <string name="threshold_light_hint">Donkere modus wordt geactiveerd wanneer het omgevingslicht onder dit niveau daalt</string>
     <string name="threshold_brightness_hint">Donkere modus wordt geactiveerd wanneer de schermhelderheid onder dit niveau is</string>
+    <string name="current_light_reading">Huidig licht: %d Lux</string>
+    <string name="current_brightness_reading">Huidige helderheid: %d%%</string>
     <string name="night_mode_start">Starttijd nachtmodus</string>
     <string name="night_mode_end">Eindtijd nachtmodus</string>
 

@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">Рівень яскравості</string>
     <string name="threshold_light_hint">Темний режим активується, коли рівень навколишнього освітлення падає нижче цього значення</string>
     <string name="threshold_brightness_hint">Темний режим активується, коли яскравість екрана нижче цього значення</string>
+    <string name="current_light_reading">Поточне світло: %d Lux</string>
+    <string name="current_brightness_reading">Поточна яскравість: %d%%</string>
     <string name="night_mode_start">Час початку нічного режиму</string>
     <string name="night_mode_end">Час закінчення нічного режиму</string>
 

@@ -27,6 +27,8 @@
     <string name="threshold_brightness_title">亮度等級</string>
     <string name="threshold_light_hint">當環境光線低於此等級時啟用深色模式</string>
     <string name="threshold_brightness_hint">當螢幕亮度低於此等級時啟用深色模式</string>
+    <string name="current_light_reading">目前光線：%d Lux</string>
+    <string name="current_brightness_reading">目前亮度：%d%%</string>
     <string name="night_mode_start">夜間模式開始時間</string>
     <string name="night_mode_end">夜間模式結束時間</string>
 

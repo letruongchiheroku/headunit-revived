@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">Fényerő szint</string>
     <string name="threshold_light_hint">A sötét mód aktiválódik, ha a környezeti fény ez alá a szint alá csökken</string>
     <string name="threshold_brightness_hint">A sötét mód aktiválódik, ha a képernyő fényereje ez alatt a szint alatt van</string>
+    <string name="current_light_reading">Jelenlegi fény: %d Lux</string>
+    <string name="current_brightness_reading">Jelenlegi fényerő: %d%%</string>
     <string name="night_mode_start">Éjszakai mód kezdete</string>
     <string name="night_mode_end">Éjszakai mód vége</string>
 

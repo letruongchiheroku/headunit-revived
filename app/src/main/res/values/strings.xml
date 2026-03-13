@@ -28,6 +28,8 @@
     <string name="threshold_brightness_title">Brightness Level</string>
     <string name="threshold_light_hint">Dark mode activates when ambient light drops below this level</string>
     <string name="threshold_brightness_hint">Dark mode activates when screen brightness is below this level</string>
+    <string name="current_light_reading">Current light: %d Lux</string>
+    <string name="current_brightness_reading">Current brightness: %d%%</string>
     <string name="night_mode_start">Night Mode Start Time</string>
     <string name="night_mode_end">Night Mode End Time</string>
 
