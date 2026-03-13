@@ -61,7 +61,8 @@ class AapTransport(
         videoDecoder: VideoDecoder,
         audioManager: AudioManager,
         internal val settings: Settings,
-        private val notification: BackgroundNotification,        private val context: Context,
+        private val notification: BackgroundNotification,
+        private val context: Context,
         private val externalSsl: AapSslContext? = null)
     : MicRecorder.Listener {
 
