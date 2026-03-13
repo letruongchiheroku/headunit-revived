@@ -77,13 +77,15 @@ class ServiceDiscoveryResponse(private val context: Context)
                     AppLog.i("[ServiceDiscovery] NegotiatedResolution is: ${HeadUnitScreenConfig.getNegotiatedWidth()}x${HeadUnitScreenConfig.getNegotiatedHeight()}")
                     AppLog.i("[ServiceDiscovery] Margins are: ${phoneWidthMargin}x${phoneHeightMargin}")
 
+                    // Offer only ONE configuration to force the phone's behavior
                     mediaSinkServiceBuilder.addVideoConfigs(Control.Service.MediaSinkService.VideoConfiguration.newBuilder().apply {
                         codecResolution = negotiatedResolution
-                        frameRate = when (settings.fpsLimit) {
-                            30 -> Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._30
-                            else -> Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._60
+                        frameRate = if (settings.fpsLimit >= 60) {
+                            Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._60
+                        } else {
+                            Control.Service.MediaSinkService.VideoConfiguration.VideoFrameRateType._30
                         }
-                        setDensity(HeadUnitScreenConfig.getDensityDpi()) // Use actual densityDpi
+                        setDensity(HeadUnitScreenConfig.getDensityDpi())
                         setMarginWidth(phoneWidthMargin)
                         setMarginHeight(phoneHeightMargin)
                         setVideoCodecType(effectiveCodec)
