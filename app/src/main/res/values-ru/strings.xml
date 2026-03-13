@@ -243,8 +243,10 @@
     <string name="failed">Ошибка</string>
     <string name="failed_start_android_auto">Не удалось запустить Android Auto</string>
     <string name="android_auto_starting">Запуск Android Auto…</string>
-    <string name="connection_interrupted">Соединение прервано</string>
-    <string name="connection_interrupted_detail">Ваш телефон перестал отправлять данные. Обычно это вызвано сменой сети на телефоне. Ожидание восстановления…</string>
+    <string name="connection_interrupted">Соединение потеряно</string>
+    <string name="connection_interrupted_detail">Повторное подключение…</string>
+    <string name="wifi_disconnect_title">Соединение потеряно</string>
+    <string name="wifi_disconnect_message">Если вы были подключены по беспроводной сети (или через беспроводной адаптер), попробуйте отключить опцию \"Переключение между сетями\" или \"Ускорение сети\" в настройках WiFi вашего телефона. Эта настройка может агрессивно разрывать подключение к сетям WiFi без доступа в интернет, таким как ваш донгл Android Auto.</string>
     <string name="notification_service_running">Headunit Revived запущен</string>
     <string name="notification_projection_active">Трансляция Android Auto активна</string>
     <string name="shortcut_connect_title">Подключить</string>

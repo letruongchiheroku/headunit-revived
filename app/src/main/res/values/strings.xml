@@ -252,8 +252,10 @@
     <string name="failed">Failed</string>
     <string name="failed_start_android_auto">Failed to start Android Auto</string>
     <string name="android_auto_starting">Android Auto is starting…</string>
-    <string name="connection_interrupted">Connection interrupted</string>
-    <string name="connection_interrupted_detail">Your phone stopped sending data. This is usually caused by a network change on your phone. Waiting for recovery…</string>
+    <string name="connection_interrupted">Connection lost</string>
+    <string name="connection_interrupted_detail">Retrying…</string>
+    <string name="wifi_disconnect_title">Connection lost</string>
+    <string name="wifi_disconnect_message">If you were connected wirelessly (or using a wireless adapter), try disabling the \"Switch between networks\" or \"Network acceleration\" option in your phone\'s WiFi settings. This setting can aggressively disconnect WiFi networks that don\'t have internet access, like your Android Auto dongle.</string>
     <string name="reset_usb_option">Reset USB Connection</string>
     <string name="reset_usb_timeout">USB device not found. Please check connection.</string>
     <string name="notification_service_running">Headunit Revived is running</string>

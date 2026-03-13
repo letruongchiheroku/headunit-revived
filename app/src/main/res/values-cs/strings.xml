@@ -243,8 +243,10 @@
     <string name="failed">Selhalo</string>
     <string name="failed_start_android_auto">Spuštění Android Auto selhalo</string>
     <string name="android_auto_starting">Android Auto se spouští…</string>
-    <string name="connection_interrupted">Připojení přerušeno</string>
-    <string name="connection_interrupted_detail">Váš telefon přestal odesílat data. Obvykle to způsobuje změna sítě na telefonu. Čekání na obnovení…</string>
+    <string name="connection_interrupted">Spojení ztraceno</string>
+    <string name="connection_interrupted_detail">Opětovné připojování…</string>
+    <string name="wifi_disconnect_title">Spojení ztraceno</string>
+    <string name="wifi_disconnect_message">Pokud jste byli připojeni bezdrátově (nebo pomocí bezdrátového adaptéru), zkuste vypnout možnost \"Přepínání mezi sítěmi\" nebo \"Zrychlení sítě\" v nastavení Wi-Fi vašeho telefonu. Toto nastavení může agresivně odpojovat Wi-Fi sítě bez přístupu k internetu, jako je váš Android Auto dongle.</string>
     <string name="notification_service_running">Headunit Revived je spuštěna</string>
     <string name="notification_projection_active">Android Auto je promítáno</string>
     <string name="shortcut_connect_title">Připojit</string>

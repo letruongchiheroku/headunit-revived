@@ -243,8 +243,10 @@
     <string name="failed">Falha</string>
     <string name="failed_start_android_auto">Falha ao iniciar Android Auto</string>
     <string name="android_auto_starting">Android Auto está iniciando…</string>
-    <string name="connection_interrupted">Conexão interrompida</string>
-    <string name="connection_interrupted_detail">Seu telefone parou de enviar dados. Isso geralmente é causado por uma mudança de rede no telefone. Aguardando recuperação…</string>
+    <string name="connection_interrupted">Conexão perdida</string>
+    <string name="connection_interrupted_detail">Tentando novamente…</string>
+    <string name="wifi_disconnect_title">Conexão perdida</string>
+    <string name="wifi_disconnect_message">Se você estava conectado sem fio (ou usando um adaptador wireless), tente desativar a opção \"Alternar entre redes\" ou \"Aceleração de rede\" nas configurações WiFi do seu telefone. Essa configuração pode desconectar agressivamente redes WiFi sem acesso à internet, como o seu dongle do Android Auto.</string>
     <string name="reset_usb_option">Redefinir conexão USB</string>
     <string name="reset_usb_timeout">Dispositivo USB não encontrado. Verifique a conexão.</string>
     <string name="notification_service_running">Headunit Revived está em execução</string>

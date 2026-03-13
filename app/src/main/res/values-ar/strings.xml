@@ -243,8 +243,10 @@
     <string name="failed">فشل</string>
     <string name="failed_start_android_auto">فشل تشغيل Android Auto</string>
     <string name="android_auto_starting">جار تشغيل Android Auto…</string>
-    <string name="connection_interrupted">انقطع الاتصال</string>
-    <string name="connection_interrupted_detail">توقف هاتفك عن إرسال البيانات. يحدث هذا عادةً بسبب تغيير في الشبكة على هاتفك. في انتظار الاستعادة…</string>
+    <string name="connection_interrupted">فُقد الاتصال</string>
+    <string name="connection_interrupted_detail">جارٍ إعادة المحاولة…</string>
+    <string name="wifi_disconnect_title">فُقد الاتصال</string>
+    <string name="wifi_disconnect_message">إذا كنت متصلاً لاسلكياً (أو تستخدم محولاً لاسلكياً)، حاول تعطيل خيار \"التبديل بين الشبكات\" أو \"تسريع الشبكة\" في إعدادات WiFi بهاتفك. يمكن لهذا الإعداد قطع اتصال شبكات WiFi التي لا تملك وصولاً للإنترنت بشكل عنيف، مثل دونغل Android Auto الخاص بك.</string>
     <string name="notification_service_running">Headunit Revived يعمل</string>
     <string name="notification_projection_active">Android Auto قيد الإسقاط</string>
     <string name="shortcut_connect_title">اتصال</string>

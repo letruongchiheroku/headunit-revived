@@ -71,7 +71,14 @@ class HomeFragment : Fragment() {
 
         viewLifecycleOwner.lifecycleScope.launch {
             repeatOnLifecycle(Lifecycle.State.STARTED) {
-                commManager.connectionState.collect { updateProjectionButtonText() }
+                commManager.connectionState.collect { state ->
+                    updateProjectionButtonText()
+                    if (state is com.andrerinas.headunitrevived.connection.CommManager.ConnectionState.Disconnected
+                        && !state.isClean
+                        && App.provide(requireContext()).settings.lastConnectionType == Settings.CONNECTION_TYPE_WIFI) {
+                        showWifiDisconnectDialog()
+                    }
+                }
             }
         }
 
@@ -178,6 +185,22 @@ class HomeFragment : Fragment() {
             Intent(requireContext(), AapService::class.java).apply {
                 action = AapService.ACTION_CHECK_USB
             })
+    }
+
+    private var wifiDisconnectDialogShown = false
+
+    private fun showWifiDisconnectDialog() {
+        if (wifiDisconnectDialogShown || !isAdded) return
+        wifiDisconnectDialogShown = true
+        MaterialAlertDialogBuilder(requireContext())
+            .setTitle(R.string.wifi_disconnect_title)
+            .setMessage(R.string.wifi_disconnect_message)
+            .setPositiveButton(android.R.string.ok) { dialog, _ ->
+                dialog.dismiss()
+                wifiDisconnectDialogShown = false
+            }
+            .setOnDismissListener { wifiDisconnectDialogShown = false }
+            .show()
     }
 
     private fun setupListeners() {

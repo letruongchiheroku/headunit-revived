@@ -242,8 +242,10 @@
     <string name="failed">Mislukt</string>
     <string name="failed_start_android_auto">Starten van Android Auto mislukt</string>
     <string name="android_auto_starting">Android Auto start op…</string>
-    <string name="connection_interrupted">Verbinding onderbroken</string>
-    <string name="connection_interrupted_detail">Je telefoon is gestopt met het verzenden van gegevens. Dit wordt meestal veroorzaakt door een netwerkwijziging op je telefoon. Wachten op herstel…</string>
+    <string name="connection_interrupted">Verbinding verloren</string>
+    <string name="connection_interrupted_detail">Opnieuw proberen…</string>
+    <string name="wifi_disconnect_title">Verbinding verloren</string>
+    <string name="wifi_disconnect_message">Als je draadloos verbonden was (of een draadloze adapter gebruikt), probeer dan de optie \"Wisselen tussen netwerken\" of \"Netwerkversnelling\" uit te schakelen in de WiFi-instellingen van je telefoon. Deze instelling kan WiFi-netwerken zonder internettoegang agressief verbreken, zoals je Android Auto dongle.</string>
     <string name="reset_usb_option">USB-verbinding resetten</string>
     <string name="reset_usb_timeout">USB-apparaat niet gevonden. Controleer de verbinding.</string>
     <string name="notification_service_running">Headunit Revived is actief</string>
