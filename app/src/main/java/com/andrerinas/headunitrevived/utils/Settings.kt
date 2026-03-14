@@ -484,6 +484,10 @@ class Settings(context: Context) {
         }
     }
 
+    var monochromeIcons: Boolean
+        get() = prefs.getBoolean("monochrome-icons", false)
+        set(value) { prefs.edit().putBoolean("monochrome-icons", value).apply() }
+
     var appTheme: AppTheme
         get() {
             val value = prefs.getInt("app-theme", 0)

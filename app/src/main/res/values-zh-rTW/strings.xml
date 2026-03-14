@@ -324,4 +324,6 @@
     <string name="nav_action_ferry">渡輪</string>
     <string name="nav_action_ferry_train">渡輪／火車</string>
     <string name="nav_action_destination">抵達</string>
+    <string name="monochrome_icons">單色圖示</string>
+    <string name="monochrome_icons_description">在主畫面上使用灰階圖示</string>
 </resources>

@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">Prom</string>
     <string name="nav_action_ferry_train">Prom / pociąg</string>
     <string name="nav_action_destination">Przyjazd</string>
+    <string name="monochrome_icons">Monochromatyczne ikony</string>
+    <string name="monochrome_icons_description">Używaj szarych ikon na ekranie głównym</string>
     </resources>

@@ -36,6 +36,8 @@
     <string name="app_theme">Dark Mode (Application)</string>
     <string name="app_theme_description">Control the app\'s visual appearance</string>
     <string name="change_app_theme">Change App Theme</string>
+    <string name="monochrome_icons">Monochrome icons</string>
+    <string name="monochrome_icons_description">Use grayscale icons on the home screen</string>
     <string name="category_dark_mode">Dark Mode</string>
     <string name="category_navigation">Navigation</string>
 

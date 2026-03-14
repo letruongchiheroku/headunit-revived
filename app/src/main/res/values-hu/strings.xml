@@ -324,4 +324,6 @@
     <string name="nav_action_ferry">Komp</string>
     <string name="nav_action_ferry_train">Komp / vonat</string>
     <string name="nav_action_destination">Megérkezés</string>
+    <string name="monochrome_icons">Monokróm ikonok</string>
+    <string name="monochrome_icons_description">Szürkeárnyalatos ikonok használata a kezdőképernyőn</string>
 </resources>

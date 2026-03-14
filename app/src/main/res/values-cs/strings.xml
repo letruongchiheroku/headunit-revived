@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">Trajekt</string>
     <string name="nav_action_ferry_train">Trajekt / vlak</string>
     <string name="nav_action_destination">Příjezd</string>
+    <string name="monochrome_icons">Monochromatické ikony</string>
+    <string name="monochrome_icons_description">Použít šedé ikony na domovské obrazovce</string>
 </resources>

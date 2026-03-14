@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">Feribot</string>
     <string name="nav_action_ferry_train">Feribot / tren</string>
     <string name="nav_action_destination">Sosire</string>
+    <string name="monochrome_icons">Pictograme monocrome</string>
+    <string name="monochrome_icons_description">Utilizați pictograme în tonuri de gri pe ecranul principal</string>
 </resources>

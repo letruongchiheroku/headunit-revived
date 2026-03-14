@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">Пором</string>
     <string name="nav_action_ferry_train">Пором / потяг</string>
     <string name="nav_action_destination">Прибуття</string>
+    <string name="monochrome_icons">Монохромні значки</string>
+    <string name="monochrome_icons_description">Використовувати сірі значки на головному екрані</string>
     </resources>

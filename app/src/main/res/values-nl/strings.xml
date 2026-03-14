@@ -324,4 +324,6 @@
     <string name="nav_action_ferry">Veerboot</string>
     <string name="nav_action_ferry_train">Veerboot / trein</string>
     <string name="nav_action_destination">Aankomst</string>
+    <string name="monochrome_icons">Monochrome pictogrammen</string>
+    <string name="monochrome_icons_description">Grijstinten pictogrammen op het startscherm gebruiken</string>
     </resources>

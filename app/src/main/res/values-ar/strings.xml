@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">عبّارة</string>
     <string name="nav_action_ferry_train">عبّارة / قطار</string>
     <string name="nav_action_destination">وصول</string>
+    <string name="monochrome_icons">أيقونات أحادية اللون</string>
+    <string name="monochrome_icons_description">استخدام أيقونات رمادية على الشاشة الرئيسية</string>
 </resources>

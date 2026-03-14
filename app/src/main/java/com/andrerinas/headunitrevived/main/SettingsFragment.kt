@@ -103,6 +103,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
     private var pendingAppThemeThresholdBrightness: Int? = null
     private var pendingAppThemeManualStart: Int? = null
     private var pendingAppThemeManualEnd: Int? = null
+    private var pendingMonochromeIcons: Boolean? = null
 
     // Direct light sensor reading (independent of AppThemeManager)
     private var cachedLux: Float = -1f
@@ -172,6 +173,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
         pendingAppThemeThresholdBrightness = settings.appThemeThresholdBrightness
         pendingAppThemeManualStart = settings.appThemeManualStart
         pendingAppThemeManualEnd = settings.appThemeManualEnd
+        pendingMonochromeIcons = settings.monochromeIcons
 
         // Intercept system back button
         requireActivity().onBackPressedDispatcher.addCallback(viewLifecycleOwner, object : OnBackPressedCallback(true) {
@@ -308,6 +310,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
         pendingAppThemeThresholdBrightness?.let { settings.appThemeThresholdBrightness = it }
         pendingAppThemeManualStart?.let { settings.appThemeManualStart = it }
         pendingAppThemeManualEnd?.let { settings.appThemeManualEnd = it }
+        pendingMonochromeIcons?.let { settings.monochromeIcons = it }
 
         pendingAppTheme?.let { newTheme ->
             settings.appTheme = newTheme
@@ -427,7 +430,8 @@ class SettingsFragment : Fragment(), SensorEventListener {
                         pendingAppThemeThresholdLux != settings.appThemeThresholdLux ||
                         pendingAppThemeThresholdBrightness != settings.appThemeThresholdBrightness ||
                         pendingAppThemeManualStart != settings.appThemeManualStart ||
-                        pendingAppThemeManualEnd != settings.appThemeManualEnd
+                        pendingAppThemeManualEnd != settings.appThemeManualEnd ||
+                        pendingMonochromeIcons != settings.monochromeIcons
 
         hasChanges = anyChange
 
@@ -583,6 +587,9 @@ class SettingsFragment : Fragment(), SensorEventListener {
                     .setTitle(R.string.change_app_theme)
                     .setSingleChoiceItems(appThemeTitles, pendingAppTheme!!.value) { dialog, which ->
                         pendingAppTheme = Settings.AppTheme.fromInt(which)
+                        if (pendingAppTheme != Settings.AppTheme.EXTREME_DARK && pendingAppTheme != Settings.AppTheme.DARK) {
+                            pendingMonochromeIcons = false
+                        }
                         checkChanges()
                         dialog.dismiss()
                         updateSettingsList()
@@ -590,6 +597,21 @@ class SettingsFragment : Fragment(), SensorEventListener {
                     .show()
             }
         ))
+
+        // Monochrome icons toggle (for Dark and Extreme Dark)
+        if (pendingAppTheme == Settings.AppTheme.DARK || pendingAppTheme == Settings.AppTheme.EXTREME_DARK) {
+            items.add(SettingItem.ToggleSettingEntry(
+                stableId = "monochromeIcons",
+                nameResId = R.string.monochrome_icons,
+                descriptionResId = R.string.monochrome_icons_description,
+                isChecked = pendingMonochromeIcons!!,
+                onCheckedChanged = { isChecked ->
+                    pendingMonochromeIcons = isChecked
+                    checkChanges()
+                    updateSettingsList()
+                }
+            ))
+        }
 
         // App theme sub-options: threshold slider for Light Sensor / Screen Brightness
         if (pendingAppTheme == Settings.AppTheme.LIGHT_SENSOR || pendingAppTheme == Settings.AppTheme.SCREEN_BRIGHTNESS) {

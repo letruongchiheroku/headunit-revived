@@ -325,4 +325,6 @@
     <string name="nav_action_ferry">Fähre</string>
     <string name="nav_action_ferry_train">Fähre / Zug</string>
     <string name="nav_action_destination">Ankunft</string>
+    <string name="monochrome_icons">Einfarbige Symbole</string>
+    <string name="monochrome_icons_description">Graustufen-Symbole auf dem Startbildschirm verwenden</string>
 </resources>
