@@ -14,7 +14,6 @@ import com.andrerinas.headunitrevived.utils.Settings
  */
 open class BaseActivity : AppCompatActivity() {
 
-    protected open val autoRecreateOnThemeChange: Boolean = true
     private var currentLanguage: String? = null
     private var currentAppTheme: Settings.AppTheme? = null
     private var currentNightMode: Int = 0
@@ -30,15 +29,10 @@ open class BaseActivity : AppCompatActivity() {
         currentAppTheme = settings.appTheme
         currentNightMode = resources.configuration.uiMode and Configuration.UI_MODE_NIGHT_MASK
 
-        // Observe live theme changes from AppThemeManager.
-        // This fires while the activity is in the foreground (STARTED/RESUMED),
-        // covering the case where setDefaultNightMode() doesn't auto-recreate.
         val appliedVersion = AppThemeManager.themeVersion.value
-        if (autoRecreateOnThemeChange) {
-            AppThemeManager.themeVersion.observe(this) { version ->
-                if (version != appliedVersion) {
-                    recreate()
-                }
+        AppThemeManager.themeVersion.observe(this) { version ->
+            if (version != appliedVersion) {
+                recreate()
             }
         }
     }

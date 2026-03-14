@@ -27,9 +27,8 @@
     <string name="threshold_light_title">حساسية الضوء</string>
     <string name="threshold_brightness_title">مستوى السطوع</string>
     <string name="threshold_light_hint">يتم تفعيل الوضع الداكن عندما ينخفض الضوء المحيط عن هذا المستوى</string>
-    <string name="threshold_brightness_hint">يتم تفعيل الوضع الداكن عندما يكون سطوع الشاشة أقل من هذا المستوى</string>
+    <string name="threshold_brightness_hint">يتم تفعيل الوضع الداكن عندما يكون سطوع الشاشة أقل من هذه القيمة. يُبلغ أندرويد عن السطوع بنطاق 0–255، لكن النطاق الفعلي قد يختلف حسب الجهاز. قد تحتاج إلى التجربة للعثور على الحد المناسب لهاتفك.</string>
     <string name="current_light_reading">الضوء الحالي: %d لوكس</string>
-    <string name="current_brightness_reading">الحالي: %d</string>
     <string name="enable_fine_lux_control">تحكم دقيق (0–100 لوكس)</string>
     <string name="night_mode_start">وقت بدء الوضع الليلي</string>
     <string name="night_mode_end">وقت انتهاء الوضع الليلي</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">التحكم في المظهر المرئي للتطبيق</string>
     <string name="change_app_theme">تغيير سمة التطبيق</string>
     <string name="category_dark_mode">الوضع الداكن</string>
+    <string name="category_navigation">الملاحة</string>
 
     <string name="reconnection_required_title">يلزم إعادة الاتصال</string>
     <string name="reconnection_required_message">الجهاز في حالة انتظار. يرجى فصل كابل USB وإعادة توصيله لبدء Android Auto مجددا.</string>

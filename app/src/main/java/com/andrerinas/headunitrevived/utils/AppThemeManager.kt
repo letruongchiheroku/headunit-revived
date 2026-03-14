@@ -139,7 +139,7 @@ class AppThemeManager(
         when (settings.appTheme) {
             Settings.AppTheme.LIGHT_SENSOR -> {
                 if (currentLux >= 0) {
-                    val hyst = 5.0f
+                    val hyst = 10.0f
                     val currentIsNight = lastEmittedNight ?: false
                     isNight = if (currentIsNight) {
                         currentLux < (threshold + hyst)
@@ -199,10 +199,9 @@ class AppThemeManager(
 
     private fun applyNightMode(isNight: Boolean) {
         val mode = if (isNight) AppCompatDelegate.MODE_NIGHT_YES else AppCompatDelegate.MODE_NIGHT_NO
-        val changed = AppCompatDelegate.getDefaultNightMode() != mode
-        AppLog.d("AppThemeManager: Setting night mode to ${if (isNight) "NIGHT" else "DAY"} (changed=$changed)")
+        AppLog.d("AppThemeManager: Setting night mode to ${if (isNight) "NIGHT" else "DAY"}")
         AppCompatDelegate.setDefaultNightMode(mode)
-        if (changed) signalThemeChange()
+        signalThemeChange()
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -250,9 +249,8 @@ class AppThemeManager(
                 Settings.AppTheme.DARK, Settings.AppTheme.EXTREME_DARK -> AppCompatDelegate.MODE_NIGHT_YES
                 else -> return
             }
-            val changed = AppCompatDelegate.getDefaultNightMode() != mode
             AppCompatDelegate.setDefaultNightMode(mode)
-            if (changed) signalThemeChange()
+            signalThemeChange()
         }
 
         fun isStaticMode(theme: Settings.AppTheme): Boolean {

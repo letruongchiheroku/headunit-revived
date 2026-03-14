@@ -27,9 +27,8 @@
     <string name="threshold_light_title">Czułość na światło</string>
     <string name="threshold_brightness_title">Poziom jasności</string>
     <string name="threshold_light_hint">Tryb ciemny aktywuje się, gdy światło otoczenia spadnie poniżej tego poziomu</string>
-    <string name="threshold_brightness_hint">Tryb ciemny aktywuje się, gdy jasność ekranu jest poniżej tego poziomu</string>
+    <string name="threshold_brightness_hint">Tryb ciemny aktywuje się, gdy jasność ekranu jest poniżej tej wartości. Android raportuje jasność jako 0–255, ale rzeczywisty zakres może się różnić w zależności od urządzenia. Może być konieczne eksperymentowanie, aby znaleźć właściwy próg dla Twojego telefonu.</string>
     <string name="current_light_reading">Aktualne światło: %d Lux</string>
-    <string name="current_brightness_reading">Aktualna: %d</string>
     <string name="enable_fine_lux_control">Precyzyjna kontrola (0–100 Lux)</string>
     <string name="night_mode_start">Czas rozpoczęcia trybu nocnego</string>
     <string name="night_mode_end">Czas zakończenia trybu nocnego</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">Kontroluj wygląd aplikacji</string>
     <string name="change_app_theme">Zmień motyw</string>
     <string name="category_dark_mode">Tryb ciemny</string>
+    <string name="category_navigation">Nawigacja</string>
 
     <string name="reconnection_required_title">Wymagane ponowne połączenie</string>
     <string name="reconnection_required_message">Urządzenie jest w stanie oczekiwania. Odłącz i podłącz ponownie kabel USB, aby zrestartować Android Auto.</string>

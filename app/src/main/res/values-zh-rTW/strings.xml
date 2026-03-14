@@ -26,9 +26,8 @@
     <string name="threshold_light_title">光線敏感度</string>
     <string name="threshold_brightness_title">亮度等級</string>
     <string name="threshold_light_hint">當環境光線低於此等級時啟用深色模式</string>
-    <string name="threshold_brightness_hint">當螢幕亮度低於此等級時啟用深色模式</string>
+    <string name="threshold_brightness_hint">當螢幕亮度低於此值時啟用深色模式。Android 以 0–255 回報亮度，但實際範圍可能因裝置而異。您可能需要嘗試找到適合您手機的閾值。</string>
     <string name="current_light_reading">目前光線：%d Lux</string>
-    <string name="current_brightness_reading">目前：%d</string>
     <string name="enable_fine_lux_control">精細控制 (0–100 Lux)</string>
     <string name="night_mode_start">夜間模式開始時間</string>
     <string name="night_mode_end">夜間模式結束時間</string>
@@ -37,6 +36,7 @@
     <string name="app_theme_description">控制應用的視覺外觀</string>
     <string name="change_app_theme">更改應用主題</string>
     <string name="category_dark_mode">深色模式</string>
+    <string name="category_navigation">導航</string>
 
     <string name="reconnection_required_title">需要重新連接</string>
     <string name="reconnection_required_message">設備處於等待狀態。請拔下並重新插入 USB 電纜以重新啟動 Android Auto。</string>

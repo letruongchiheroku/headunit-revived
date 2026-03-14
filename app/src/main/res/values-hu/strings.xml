@@ -27,9 +27,8 @@
     <string name="threshold_light_title">Fényérzékenység</string>
     <string name="threshold_brightness_title">Fényerő szint</string>
     <string name="threshold_light_hint">A sötét mód aktiválódik, ha a környezeti fény ez alá a szint alá csökken</string>
-    <string name="threshold_brightness_hint">A sötét mód aktiválódik, ha a képernyő fényereje ez alatt a szint alatt van</string>
+    <string name="threshold_brightness_hint">A sötét mód aktiválódik, ha a képernyő fényereje ez alatt az érték alatt van. Az Android 0–255 közötti értékként jelenti a fényerőt, de a tényleges tartomány eszközönként eltérhet. Előfordulhat, hogy kísérletezni kell a megfelelő küszöbérték megtalálásához.</string>
     <string name="current_light_reading">Jelenlegi fény: %d Lux</string>
-    <string name="current_brightness_reading">Jelenlegi: %d</string>
     <string name="enable_fine_lux_control">Finom szabályozás (0–100 Lux)</string>
     <string name="night_mode_start">Éjszakai mód kezdete</string>
     <string name="night_mode_end">Éjszakai mód vége</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">Az alkalmazás megjelenésének vezérlése</string>
     <string name="change_app_theme">Téma módosítása</string>
     <string name="category_dark_mode">Sötét mód</string>
+    <string name="category_navigation">Navigáció</string>
 
     <string name="reconnection_required_title">Újrakapcsolódás szükséges</string>
     <string name="reconnection_required_message">Az eszköz várakozó állapotban van. Kérlek húzd ki, majd dugd vissza az USB-kábelt az Android Auto újraindításához.</string>

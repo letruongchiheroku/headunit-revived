@@ -158,7 +158,7 @@ class NightModeManager(
             Settings.NightMode.LIGHT_SENSOR -> {
                 if (currentLux >= 0) {
                     // Hysteresis Logic
-                    val hyst = 5.0f // 5 Lux buffer
+                    val hyst = 10.0f // 5 Lux buffer
                     val currentIsNight = lastEmittedValue ?: false
                     
                     isNight = if (currentIsNight) {
@@ -171,7 +171,7 @@ class NightModeManager(
             Settings.NightMode.SCREEN_BRIGHTNESS -> {
                 currentBrightness = readBrightness()
                 if (currentBrightness >= 0) {
-                    val hyst = 10 // ~4% of 255
+                    val hyst = 10
                     val currentIsNight = lastEmittedValue ?: false
 
                     isNight = if (currentIsNight) {

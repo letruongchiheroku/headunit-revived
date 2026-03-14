@@ -188,6 +188,19 @@ class SettingsFragment : Fragment(), SensorEventListener {
 
         updateSettingsList()
         setupToolbar()
+
+        savedInstanceState?.getParcelable<android.os.Parcelable>("recycler_scroll")?.let {
+            settingsRecyclerView.layoutManager?.onRestoreInstanceState(it)
+        }
+    }
+
+    override fun onSaveInstanceState(outState: Bundle) {
+        super.onSaveInstanceState(outState)
+        if (::settingsRecyclerView.isInitialized) {
+            settingsRecyclerView.layoutManager?.onSaveInstanceState()?.let {
+                outState.putParcelable("recycler_scroll", it)
+            }
+        }
     }
 
     override fun onSensorChanged(event: SensorEvent) {
@@ -437,6 +450,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
     }
 
     private fun updateSettingsList() {
+        val scrollState = settingsRecyclerView.layoutManager?.onSaveInstanceState()
         val items = mutableListOf<SettingItem>()
 
         // --- General Settings ---
@@ -500,42 +514,6 @@ class SettingsFragment : Fragment(), SensorEventListener {
                 } catch (e: Exception) {
                     // Failover
                 }
-            }
-        ))
-
-        items.add(SettingItem.ToggleSettingEntry(
-            stableId = "gpsNavigation",
-            nameResId = R.string.gps_for_navigation,
-            descriptionResId = R.string.gps_for_navigation_description,
-            isChecked = pendingUseGps!!,
-            onCheckedChanged = { isChecked ->
-                pendingUseGps = isChecked
-                checkChanges()
-                updateSettingsList()
-            }
-        ))
-
-        items.add(SettingItem.ToggleSettingEntry(
-            stableId = "showNavigationNotifications",
-            nameResId = R.string.show_navigation_notifications,
-            descriptionResId = R.string.show_navigation_notifications_description,
-            isChecked = pendingShowNavigationNotifications!!,
-            onCheckedChanged = { isChecked ->
-                pendingShowNavigationNotifications = isChecked
-                checkChanges()
-                updateSettingsList()
-            }
-        ))
-
-        items.add(SettingItem.ToggleSettingEntry(
-            stableId = "rightHandDrive",
-            nameResId = R.string.right_hand_drive,
-            descriptionResId = R.string.right_hand_drive_description,
-            isChecked = pendingRightHandDrive!!,
-            onCheckedChanged = { isChecked ->
-                pendingRightHandDrive = isChecked
-                checkChanges()
-                updateSettingsList()
             }
         ))
 
@@ -621,16 +599,12 @@ class SettingsFragment : Fragment(), SensorEventListener {
             val hint = getString(if (isSensor) R.string.threshold_light_hint else R.string.threshold_brightness_hint)
             val currentReading = if (isSensor) {
                 if (cachedLux >= 0) getString(R.string.current_light_reading, cachedLux.toInt()) else ""
-            } else {
-                val b = readBrightness()
-                if (b >= 0) getString(R.string.current_brightness_reading, b) else ""
-            }
+            } else { "" }
             val displayValue = if (isSensor) {
                 val base = "${currentValue ?: 0} Lux"
                 if (currentReading.isNotEmpty()) "$base ($currentReading)" else base
             } else {
-                val base = "${currentValue ?: 0} / 255"
-                if (currentReading.isNotEmpty()) "$base ($currentReading)" else base
+                "${currentValue ?: 0} / 255"
             }
 
             items.add(SettingItem.SettingEntry(
@@ -658,7 +632,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
                             minLabel = "0",
                             maxLabel = "255",
                             formatValue = { v -> "$v" },
-                            currentReading = currentReading,
+                            currentReading = "",
                             sliderMax = 255,
                             onConfirm = { newVal ->
                                 pendingAppThemeThresholdBrightness = newVal
@@ -738,16 +712,12 @@ class SettingsFragment : Fragment(), SensorEventListener {
             val hint = getString(if (isSensor) R.string.threshold_light_hint else R.string.threshold_brightness_hint)
             val nmCurrentReading = if (isSensor) {
                 if (cachedLux >= 0) getString(R.string.current_light_reading, cachedLux.toInt()) else ""
-            } else {
-                val b = readBrightness()
-                if (b >= 0) getString(R.string.current_brightness_reading, b) else ""
-            }
+            } else { "" }
             val displayValue = if (isSensor) {
                 val base = "${currentValue ?: 0} Lux"
                 if (nmCurrentReading.isNotEmpty()) "$base ($nmCurrentReading)" else base
             } else {
-                val base = "${currentValue ?: 0} / 255"
-                if (nmCurrentReading.isNotEmpty()) "$base ($nmCurrentReading)" else base
+                "${currentValue ?: 0} / 255"
             }
 
             items.add(SettingItem.SettingEntry(
@@ -775,7 +745,7 @@ class SettingsFragment : Fragment(), SensorEventListener {
                             minLabel = "0",
                             maxLabel = "255",
                             formatValue = { v -> "$v" },
-                            currentReading = nmCurrentReading,
+                            currentReading = "",
                             sliderMax = 255,
                             onConfirm = { newVal ->
                                 pendingThresholdBrightness = newVal
@@ -818,6 +788,45 @@ class SettingsFragment : Fragment(), SensorEventListener {
                 }
             ))
         }
+
+        // --- Navigation Settings ---
+        items.add(SettingItem.CategoryHeader("navigation", R.string.category_navigation))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "gpsNavigation",
+            nameResId = R.string.gps_for_navigation,
+            descriptionResId = R.string.gps_for_navigation_description,
+            isChecked = pendingUseGps!!,
+            onCheckedChanged = { isChecked ->
+                pendingUseGps = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "showNavigationNotifications",
+            nameResId = R.string.show_navigation_notifications,
+            descriptionResId = R.string.show_navigation_notifications_description,
+            isChecked = pendingShowNavigationNotifications!!,
+            onCheckedChanged = { isChecked ->
+                pendingShowNavigationNotifications = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
+
+        items.add(SettingItem.ToggleSettingEntry(
+            stableId = "rightHandDrive",
+            nameResId = R.string.right_hand_drive,
+            descriptionResId = R.string.right_hand_drive_description,
+            isChecked = pendingRightHandDrive!!,
+            onCheckedChanged = { isChecked ->
+                pendingRightHandDrive = isChecked
+                checkChanges()
+                updateSettingsList()
+            }
+        ))
 
         // --- Graphic Settings ---
         items.add(SettingItem.CategoryHeader("graphic", R.string.category_graphic))
@@ -1169,7 +1178,9 @@ class SettingsFragment : Fragment(), SensorEventListener {
             }
         ))
 
-        settingsAdapter.submitList(items)
+        settingsAdapter.submitList(items) {
+            scrollState?.let { settingsRecyclerView.layoutManager?.onRestoreInstanceState(it) }
+        }
     }
 
     private fun showAudioOffsetsDialog() {
@@ -1579,14 +1590,6 @@ class SettingsFragment : Fragment(), SensorEventListener {
                 dialog.cancel()
             }
             .show()
-    }
-
-    private fun readBrightness(): Int {
-        return try {
-            android.provider.Settings.System.getInt(
-                requireContext().contentResolver, android.provider.Settings.System.SCREEN_BRIGHTNESS
-            ).coerceIn(0, 255)
-        } catch (_: Exception) { -1 }
     }
 
     private fun scheduleListRefresh() {

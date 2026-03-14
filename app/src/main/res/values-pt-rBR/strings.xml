@@ -27,9 +27,8 @@
     <string name="threshold_light_title">Sensibilidade à luz</string>
     <string name="threshold_brightness_title">Nível de brilho</string>
     <string name="threshold_light_hint">O modo escuro é ativado quando a luz ambiente cai abaixo deste nível</string>
-    <string name="threshold_brightness_hint">O modo escuro é ativado quando o brilho da tela está abaixo deste nível</string>
+    <string name="threshold_brightness_hint">O modo escuro é ativado quando o brilho da tela está abaixo deste valor. O Android reporta o brilho como 0–255, mas o intervalo real pode variar de acordo com o dispositivo. Pode ser necessário experimentar para encontrar o limite adequado para o seu telefone.</string>
     <string name="current_light_reading">Luz atual: %d Lux</string>
-    <string name="current_brightness_reading">Atual: %d</string>
     <string name="enable_fine_lux_control">Controle fino (0–100 Lux)</string>
     <string name="night_mode_start">Hora de início do modo noturno</string>
     <string name="night_mode_end">Hora de término do modo noturno</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">Controlar a aparência visual do app</string>
     <string name="change_app_theme">Alterar tema</string>
     <string name="category_dark_mode">Modo escuro</string>
+    <string name="category_navigation">Navegação</string>
 
     <string name="reconnection_required_title">Reconexão necessária</string>
     <string name="reconnection_required_message">O dispositivo está em espera. Desconecte e reconecte o cabo USB para reiniciar o Android Auto.</string>

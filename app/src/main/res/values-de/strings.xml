@@ -27,9 +27,8 @@
     <string name="threshold_light_title">Lichtempfindlichkeit</string>
     <string name="threshold_brightness_title">Helligkeitsstufe</string>
     <string name="threshold_light_hint">Der Dunkelmodus wird aktiviert, wenn das Umgebungslicht unter diesen Wert fällt</string>
-    <string name="threshold_brightness_hint">Der Dunkelmodus wird aktiviert, wenn die Bildschirmhelligkeit unter diesem Wert liegt</string>
+    <string name="threshold_brightness_hint">Der Dunkelmodus wird aktiviert, wenn die Bildschirmhelligkeit unter diesem Wert liegt. Android meldet die Helligkeit als 0–255, aber der tatsächliche Bereich kann je nach Gerät variieren. Möglicherweise müssen Sie experimentieren, um den richtigen Schwellenwert für Ihr Telefon zu finden.</string>
     <string name="current_light_reading">Aktuelles Licht: %d Lux</string>
-    <string name="current_brightness_reading">Aktuell: %d</string>
     <string name="enable_fine_lux_control">Feinsteuerung (0–100 Lux)</string>
     <string name="night_mode_start">Nachtmodus Startzeit</string>
     <string name="night_mode_end">Nachtmodus Endzeit</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">Aussehen der App steuern</string>
     <string name="change_app_theme">Design ändern</string>
     <string name="category_dark_mode">Dunkelmodus</string>
+    <string name="category_navigation">Navigation</string>
 
     <string name="reconnection_required_title">Neuverbindung erforderlich</string>
     <string name="reconnection_required_message">Das Gerät befindet sich in einem Wartezustand. Bitte ziehen Sie das USB-Kabel ab und stecken Sie es wieder ein, um Android Auto neu zu starten.</string>

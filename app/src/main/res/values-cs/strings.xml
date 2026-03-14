@@ -27,9 +27,8 @@
     <string name="threshold_light_title">Citlivost na světlo</string>
     <string name="threshold_brightness_title">Úroveň jasu</string>
     <string name="threshold_light_hint">Tmavý režim se aktivuje, když okolní světlo klesne pod tuto úroveň</string>
-    <string name="threshold_brightness_hint">Tmavý režim se aktivuje, když je jas obrazovky pod touto úrovní</string>
+    <string name="threshold_brightness_hint">Tmavý režim se aktivuje, když je jas obrazovky pod touto hodnotou. Android hlásí jas jako 0–255, ale skutečný rozsah se může lišit podle zařízení. Možná budete muset experimentovat, abyste našli správnou prahovou hodnotu pro váš telefon.</string>
     <string name="current_light_reading">Aktuální světlo: %d Lux</string>
-    <string name="current_brightness_reading">Aktuální: %d</string>
     <string name="enable_fine_lux_control">Jemné ovládání (0–100 Lux)</string>
     <string name="night_mode_start">Čas zahájení nočního režimu</string>
     <string name="night_mode_end">Čas ukončení nočního režimu</string>
@@ -38,6 +37,7 @@
     <string name="app_theme_description">Ovládejte vzhled aplikace</string>
     <string name="change_app_theme">Změnit téma</string>
     <string name="category_dark_mode">Tmavý režim</string>
+    <string name="category_navigation">Navigace</string>
 
     <string name="reconnection_required_title">Vyžadováno opětovné připojení</string>
     <string name="reconnection_required_message">Zařízení čeká. Odpojte a znovu připojte kabel USB pro restart Android Auto.</string>
