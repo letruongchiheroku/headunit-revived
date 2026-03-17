@@ -710,10 +710,18 @@ class AapService : Service(), UsbReceiver.Listener {
         val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
         val deviceList = usbManager.deviceList
 
-        // Check for devices already in accessory mode first
+        // Check for devices already in accessory mode first.
+        // After AOA switch the device re-enumerates and appears as a new USB device — we must
+        // request permission for this new device before openDevice(), or SecurityException occurs.
         for (device in deviceList.values) {
             if (UsbDeviceCompat.isInAccessoryMode(device)) {
-                AppLog.i("Found device already in accessory mode: ${UsbDeviceCompat(device).uniqueName}")
+                val deviceName = UsbDeviceCompat(device).uniqueName
+                AppLog.i("Found device already in accessory mode: $deviceName")
+                if (!usbManager.hasPermission(device)) {
+                    AppLog.i("Accessory-mode device has no permission (re-enumerated); requesting: $deviceName")
+                    requestUsbPermission(device)
+                    return
+                }
                 isSwitchingToAccessory.set(true)
                 serviceScope.launch {
                     try {

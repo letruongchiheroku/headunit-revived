@@ -162,6 +162,12 @@ class CommManager(
         if (_connectionState.value is ConnectionState.Connecting)
             return@withContext
 
+        val usbManager = context.getSystemService(Context.USB_SERVICE) as UsbManager
+        if (!usbManager.hasPermission(device)) {
+            _connectionState.emit(ConnectionState.Error("USB permission not granted for device"))
+            return@withContext
+        }
+
         // Wait for any in-progress cleanup to finish before opening the USB device.
         // Without this, openDevice() on the same hardware can return null because the previous
         // UsbDeviceConnection hasn't been close()d yet.
@@ -170,7 +176,7 @@ class CommManager(
         try {
             _connectionState.emit(ConnectionState.Connecting)
             _connection?.disconnect()
-            _connection = UsbAccessoryConnection(context.getSystemService(Context.USB_SERVICE) as UsbManager, device)
+            _connection = UsbAccessoryConnection(usbManager, device)
 
             if (_connection?.connect() ?: false) {
                 settings.saveLastConnection(type = Settings.CONNECTION_TYPE_USB, usbDevice = UsbDeviceCompat.getUniqueName(device))
