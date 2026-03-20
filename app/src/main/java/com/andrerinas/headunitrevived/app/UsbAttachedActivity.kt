@@ -14,6 +14,7 @@ import com.andrerinas.headunitrevived.aap.AapService
 import com.andrerinas.headunitrevived.connection.CommManager
 import com.andrerinas.headunitrevived.connection.UsbAccessoryMode
 import com.andrerinas.headunitrevived.connection.UsbDeviceCompat
+import com.andrerinas.headunitrevived.connection.UsbReceiver
 import com.andrerinas.headunitrevived.utils.AppLog
 import com.andrerinas.headunitrevived.utils.DeviceIntent
 import com.andrerinas.headunitrevived.utils.LocaleHelper
@@ -75,15 +76,7 @@ class UsbAttachedActivity : Activity() {
             val usbManager = getSystemService(Context.USB_SERVICE) as UsbManager
             if (!usbManager.hasPermission(device)) {
                 AppLog.i("Usb in accessory mode but no permission. Requesting...")
-                val permissionIntent = android.app.PendingIntent.getBroadcast(
-                    this, 0,
-                    Intent(com.andrerinas.headunitrevived.connection.UsbReceiver.ACTION_USB_DEVICE_PERMISSION).apply {
-                        setPackage(packageName)
-                    },
-                    if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.S)
-                        android.app.PendingIntent.FLAG_UPDATE_CURRENT or android.app.PendingIntent.FLAG_MUTABLE
-                    else android.app.PendingIntent.FLAG_UPDATE_CURRENT
-                )
+                val permissionIntent = UsbReceiver.createPermissionPendingIntent(this)
                 usbManager.requestPermission(device, permissionIntent)
                 finish()
                 return

@@ -1,11 +1,13 @@
 package com.andrerinas.headunitrevived.connection
 
+import android.app.PendingIntent
 import android.content.BroadcastReceiver
 import android.content.Context
 import android.content.Intent
 import android.content.IntentFilter
 import android.hardware.usb.UsbDevice
 import android.hardware.usb.UsbManager
+import android.os.Build
 
 
 import com.andrerinas.headunitrevived.utils.AppLog
@@ -50,6 +52,18 @@ class UsbReceiver(private val mListener: Listener)          // USB Broadcast Rec
     companion object {
         const val ACTION_USB_DEVICE_PERMISSION = "com.andrerinas.headunitrevived" + ".ACTION_USB_DEVICE_PERMISSION"
         const val EXTRA_CONNECT = "EXTRA_CONNECT"
+
+        fun createPermissionPendingIntent(context: Context): PendingIntent {
+            return PendingIntent.getBroadcast(
+                context, 0,
+                Intent(ACTION_USB_DEVICE_PERMISSION).apply {
+                    setPackage(context.packageName)
+                },
+                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.S)
+                    PendingIntent.FLAG_UPDATE_CURRENT or PendingIntent.FLAG_MUTABLE
+                else PendingIntent.FLAG_UPDATE_CURRENT
+            )
+        }
 
         fun createFilter(): IntentFilter {
             val filter = IntentFilter()
